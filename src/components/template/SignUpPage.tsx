@@ -129,7 +129,7 @@ const SignUpPage = () => {
   });
 
   return (
-    <div className="inset-x-0 top-0 bottom-0 m-auto mt-4 h-full rounded-2xl border-blue-500 md:absolute md:mt-16 md:h-fit top-20 md:w-[90%] md:border">
+    <div className="inset-x-0 bottom-0 m-auto mt-4 h-full rounded-2xl border-blue-500 md:absolute md:mt-16 md:h-fit top-20 md:w-[90%] md:border">
       <p className="mt-2 text-center text-xl font-bold text-blue-500">
         فرم ثبت نام
       </p>
