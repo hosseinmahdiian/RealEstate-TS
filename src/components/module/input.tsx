@@ -26,7 +26,7 @@ const Input: FC<InputProps> = ({
   data = "",
   name = "",
   type = "text",
-  inputMode = "",
+  inputMode = "text",
   title = "",
   placeholder = "",
   disabled = false,
@@ -64,7 +64,7 @@ const Input: FC<InputProps> = ({
       {alert && (
         <label
           htmlFor={name}
-          className={`absolute start-1 -bottom-6 !h-fit flex items-center gap-2  text-sm text-red-400 transition-all ease-linear`}
+          className={`absolute start-1 -bottom-6 flex !h-fit items-center gap-2 text-sm text-red-400 transition-all ease-linear`}
         >
           <FaStarOfLife className="text-[10px]" />
           <p className="mt-0.5">{alert}</p>

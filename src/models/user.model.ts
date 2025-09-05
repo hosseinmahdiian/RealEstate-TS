@@ -5,7 +5,8 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
   fullName: { type: String, required: true },
   mobile: { type: String },
+  profile: { type: String },
   createdAt: { type: Date, default: () => Date.now(), immutable: true },
 });
-const User = models.User || model("User", UserSchema);
+const User = models?.User || model("User", UserSchema);
 export default User;

@@ -20,15 +20,15 @@ export const convertPersianToEnglish = (str: string) => {
 
 export const onChengFormHandel = <T>(
   set: Dispatch<SetStateAction<T>>,
-  e: InputChangeEvent,
+  e: InputChangeEvent | { target: { name: string; value: string } },
   isNumber: boolean = false,
   isMobile: boolean = false,
   isCode: boolean = false,
 ) => {
   const value = e.target.value;
   const name = e.target.name;
+  const convertNumber = convertPersianToEnglish(value);
   if (isNumber) {
-    const convertNumber = convertPersianToEnglish(value);
     const number = convertNumber.replace(/[^0-9]/g, "");
 
     if (isMobile) {
@@ -58,7 +58,7 @@ export const onChengFormHandel = <T>(
   } else {
     set((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: convertNumber,
     }));
   }
 };
@@ -72,8 +72,8 @@ export const onChengHandel = (
 ) => {
   const value = e.target.value;
   const name = e.target.name;
+  const convertNumber = convertPersianToEnglish(value);
   if (isNumber) {
-    const convertNumber = convertPersianToEnglish(value);
     const number = convertNumber.replace(/[^0-9]/g, "");
 
     if (isMobile) {
@@ -90,6 +90,20 @@ export const onChengHandel = (
     }
     set(+number);
   } else {
-    set(value);
+    set(convertNumber);
   }
+};
+
+export const onChengRadioHandel = <T>(
+  set: Dispatch<SetStateAction<T>>,
+  e: InputChangeEvent,
+) => {
+  const value = e.target.value;
+  const id = e.target.id;
+  const name = e.target.name;
+
+  set((prev) => ({
+    ...prev,
+    [name]: id,
+  }));
 };

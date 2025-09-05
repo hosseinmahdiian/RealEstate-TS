@@ -1,5 +1,5 @@
 {
-  "name": "real-estate-ts",
+  "name": "real-state-ts",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,6 +13,9 @@
     "@tanstack/react-query-devtools": "^5.85.6",
     "axios": "^1.11.0",
     "bcryptjs": "^3.0.2",
+    "browser-image-compression": "^2.0.2",
+    "formidable": "^3.5.4",
+    "marked": "^16.2.1",
     "mongodb": "^6.19.0",
     "mongoose": "^8.18.0",
     "next": "15.5.2",
@@ -21,12 +24,18 @@
     "react-dom": "19.1.0",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.5.0",
-    "react-spinners": "^0.17.0"
+    "react-leaflet": "^5.0.0",
+    "react-multi-date-picker": "^4.5.2",
+    "react-simplemde-editor": "^5.2.0",
+    "react-spinners": "^0.17.0",
+    "simplemde": "^1.11.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@tanstack/eslint-plugin-query": "^5.83.1",
+    "@types/formidable": "^3.4.5",
+    "@types/leaflet": "^1.9.20",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

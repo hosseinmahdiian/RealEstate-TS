@@ -6,3 +6,14 @@
 
 @custom-variant child (& > *);
 @custom-variant child-hover (& > *:hover);
+
+.leaflet-attribution-flag {
+  display: none !important;
+}
+.leaflet-control-attribution > a:first-child {
+  display: none !important;
+}
+
+.leaflet-control-attribution > span {
+  display: none !important;
+}

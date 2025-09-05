@@ -5,7 +5,7 @@ import { FaArrowRightToBracket, FaRegCircleUser } from "react-icons/fa6";
 
 const Header = () => {
   const session = useSession();
-  console.log(session);
+  // console.log(session);
 
   const { fullName, email } = session?.data?.user ?? {
     fullName: "",
