@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@neshan-maps-platform/mapbox-gl-react": "^1.0.3",
     "@tanstack/react-query": "^5.85.6",
     "@tanstack/react-query-devtools": "^5.85.6",
     "axios": "^1.11.0",

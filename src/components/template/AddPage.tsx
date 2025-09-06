@@ -1,8 +1,8 @@
 "use client";
-import React, { useActionState, useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import Button from "../module/button";
 import Input from "../module/input";
-import { onChengFormHandel, onChengRadioHandel } from "@/function/function";
+import { onChengFormHandel } from "@/function/function";
 import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -11,9 +11,16 @@ import TextAria from "../module/Textaria";
 import RadioCateGoresList from "./RadioCateGoresList";
 import InputTextList from "../module/InputTextList";
 import Calender from "../module/Calender";
-import { FaStarOfLife } from "react-icons/fa6";
 import MAP from "../module/Map/MapMain";
+import { LatLngData } from "src/interfaces/interface";
+import { FetchAddressNeshan } from "@/services/Neshan.api";
+import UploadGallery from "../module/UploadGallery";
+import UploadImage from "../module/UploadImage";
 
+interface GalleryImage {
+  id: string;
+  url: string;
+}
 const reset: ProfileDataType = {
   title: "",
   image: "",
@@ -29,9 +36,17 @@ const reset: ProfileDataType = {
   amenities: [],
   rules: [],
 };
+
 const AddPage = () => {
   const router = useRouter();
   const [modal, setModal] = useState<boolean>(false);
+  const [location, setLocation] = useState<LatLngData | null>(null);
+  const [gallery, setGallery] = useState<GalleryImage[]>([]);
+  const [image, setImage] = useState<{ url: string; id: string } | null>({
+    url: "",
+    id: "",
+  });
+
   const [data, setData] = useState<ProfileDataType>({
     title: "",
     image: "",
@@ -62,6 +77,55 @@ const AddPage = () => {
     amenities: [],
     rules: [],
   });
+  console.log(image, gallery);
+
+  const {
+    mutate: mutateFetchAddress,
+    isPending: isPendingFetchAddress,
+    data: dataFetchAddress,
+  } = useMutation({
+    mutationKey: ["FetchAddress"],
+    mutationFn: FetchAddressNeshan,
+    onSuccess: (data) => {
+      if (data?.status == "OK") {
+        setData((prev) => ({
+          ...prev,
+          address: data.formatted_address,
+          location,
+        }));
+        toast.success("آدرس دقیق وارد شد ");
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message || "خطایی رخ داده است");
+    },
+  });
+
+  useEffect(() => {
+    if (location?.lat && location?.lng) {
+      mutateFetchAddress({ lat: location.lat, lng: location.lng });
+    } else {
+      setData((prev) => ({
+        ...prev,
+        address: "",
+        location: null,
+      }));
+    }
+  }, [location]);
+
+  useEffect(() => {
+    setData((prev) => ({
+      ...prev,
+      image: image?.url || "",
+    }));
+  }, [image]);
+
+  useEffect(() => {
+    setData((prev) => ({
+      ...prev,
+      gallery: gallery?.length ? [...gallery.map((img) => img?.url)] : [],
+    }));
+  }, [gallery]);
 
   // const { mutate, isPending } = useMutation({
   //   mutationKey: ["signup"],
@@ -172,8 +236,6 @@ const AddPage = () => {
 
   const [formData, formAction, isPending2] = useActionState(sinUpAction, reset);
 
-  console.log(data);
-
   return (
     <div className="overflow-y-scroll md:h-[calc(100vh-120px)]">
       <p className="mt-2 text-center text-xl font-bold text-blue-500">
@@ -242,21 +304,22 @@ const AddPage = () => {
           // disabled={isPending}
         />
 
-        <div className="aspect-square w-full lg:col-span-4">
-          <MAP
-            data={data.location}
-            setData={(loc) => setData((prev) => ({ ...prev, location: loc }))}
-          />
+        <div className="aspect-square w-full lg:col-span-3">
+          <MAP data={location} setData={setLocation} />
         </div>
-        
-        <Calender
-          data={String(data.constructionDate)}
-          name="constructionDate"
-          setModal={setModal}
-          modal={modal}
-          set={setData}
-          alert={String(messages.constructionDate)}
-        />
+
+        <div className="w-full lg:col-span-3">
+          <Calender
+            data={String(data.constructionDate)}
+            name="constructionDate"
+            setModal={setModal}
+            modal={modal}
+            set={setData}
+            alert={String(messages.constructionDate)}
+          />
+          <UploadImage image={image} setImage={setImage} />
+          <UploadGallery gallery={gallery} setGallery={setGallery} />
+        </div>
 
         <TextAria
           title="description"

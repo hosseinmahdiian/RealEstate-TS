@@ -33,6 +33,18 @@ const MAP: FC<MAPProps> = ({ data, setData }) => {
         ref={mapRef}
       >
         <TileLayer
+          // url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          // url="https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
+          // url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          // url="https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png"
+          // url="https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg"
+          // url="https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=YOUR_API_KEY"
+          // url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
+          // url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x"
+          // url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x"
+          // url=" https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png"
+          // url="https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png"
+          // url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         />
@@ -40,7 +52,7 @@ const MAP: FC<MAPProps> = ({ data, setData }) => {
         {position && <Marker icon={userIcon} position={position} />}
       </MapContainer>
       <span
-        className="leaflet-map-pane absolute right-4 bottom-5 !z-[1000000000] flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  bg-white shadow"
+        className="leaflet-map-pane absolute right-4 bottom-5 !z-[1000000000] flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white shadow"
         onClick={locateUser}
       >
         <FaLocationCrosshairs className="text-xl" />
