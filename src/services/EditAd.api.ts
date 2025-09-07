@@ -1,16 +1,16 @@
-import axios from "axios";
-import { LogInType } from "@/types/dataType.type";
 import { ResponseInterface } from "@/interface/interfaces.interface";
+import { AdvertisementType } from "@/types/dataType.type";
+import axios from "axios";
 
-export const SignUp = async (
-  data: LogInType & { fullName: string; mobile?: string },
+export const EditAdAPI = async (
+  data: AdvertisementType,
 ): Promise<ResponseInterface> => {
   try {
-    const res = await axios.post("/api/auth/signup", data);
+    const res = await axios.patch(`/api/Ad`, data);
     console.log(res.data);
     return res.data;
   } catch (error: any) {
-    console.error(error.response?.data || error.message || error);
+    console.error(error?.response?.data || error?.message || error);
     return {
       success: false,
       error: error.response?.data?.error || "خطایی رخ داده",

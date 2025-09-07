@@ -26,7 +26,7 @@ const RadioInput = ({
         id={id}
         name={name}
         type="radio"
-        value={data}
+        checked={data === id} 
         disabled={disabled}
         onChange={FN}
         className={`h-4 w-4 ${

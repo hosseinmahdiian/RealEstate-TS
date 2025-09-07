@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  images: {
+    localPatterns: [
+      {
+        pathname: "/api/image",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;

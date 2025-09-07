@@ -1,16 +1,16 @@
-import { InputChangeEvent, ProfileDataType } from "@/types/dataType.type";
+import { InputChangeEvent, AdvertisementType } from "@/types/dataType.type";
 import React, { Dispatch, SetStateAction } from "react";
 import Input from "./input";
 import { MdLibraryAdd, MdOutlineDeleteForever } from "react-icons/md";
 type InputProps = {
-  data?: ProfileDataType;
+  data?: AdvertisementType;
   title: string;
   name?: string;
-  type: keyof ProfileDataType;
+  type: keyof AdvertisementType;
   alert?: string;
   style?: string;
   disabled?: boolean;
-  set: Dispatch<SetStateAction<ProfileDataType>>;
+  set: Dispatch<SetStateAction<AdvertisementType>>;
 };
 
 const InputTextList = ({
@@ -34,11 +34,15 @@ const InputTextList = ({
   };
 
   const deleteHandler = (index: number) => {
+    if (disabled) return;
+
     const updatedList = mainList.filter((_, i) => i !== index);
     set((prev) => ({ ...prev, [type]: updatedList }));
   };
 
   const addHandler = () => {
+    if (disabled) return;
+
     set((prev) => ({ ...prev, [type]: [...mainList, ""] }));
   };
 
@@ -49,7 +53,7 @@ const InputTextList = ({
         <button
           type="button"
           onClick={addHandler}
-          className="flex items-center gap-1 rounded-2xl border bg-blue-500 px-2 py-1 text-sm text-white"
+          className={`text-s flex cursor-pointer items-center gap-1 rounded-2xl bg-blue-200 px-2 py-1 text-gray-500 ${disabled && "!cursor-not-allowed !bg-blue-50 !text-gray-700"}`}
         >
           <span>افزودن</span>
           <MdLibraryAdd className="" />
@@ -71,7 +75,7 @@ const InputTextList = ({
           <button
             type="button"
             onClick={() => deleteHandler(index)}
-            className="flex h-13 items-center gap-1 rounded-[14px] border bg-red-500 px-2 py-1 text-sm text-white"
+            className={`flex h-13 cursor-pointer items-center gap-1 rounded-[14px]  bg-red-500 px-2 py-1 text-sm text-white ${disabled && "!cursor-not-allowed !bg-red-50 !text-gray-700"}`}
           >
             <span>حذف</span>
             <MdOutlineDeleteForever className="" />

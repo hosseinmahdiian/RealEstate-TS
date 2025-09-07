@@ -20,13 +20,15 @@
     ],
     "baseUrl": ".",
     "paths": {
+      "@/enum/*": ["src/enums/*"],
       "@/api/*": ["src/app/api/*"],
       "@/utils/*": ["src/utils/*"],
       "@/types/*": ["src/types/*"],
       "@/models/*": ["src/models/*"],
       "@/provider/*": ["src/provider/*"],
       "@/constant/*": ["src/constant/*"],
-      "@/function/*": ["src/function/*"],
+      "@/function/*": ["src/functions/*"],
+      "@/interface/*": ["src/interfaces/*"],
       "@/services/*": ["src/services/*"],
       "@/components/*": ["src/components/*"],
       "@/layout/*": ["src/components/layout/*"],
@@ -34,6 +36,12 @@
       "@/template/*": ["src/components/template/*"]
     }
   },
-  "include": [ "next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/provider/NextAuthProvider.provider.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/provider/NextAuthProvider.provider.tsx"
+  ],
   "exclude": ["node_modules"]
 }

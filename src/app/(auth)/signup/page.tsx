@@ -1,5 +1,5 @@
 import { authOptions } from "@/api/auth/[...nextauth]/route";
-import SignUpPage from "@/components/template/SignUpPage";
+import SignUpPage from "@/template/SignUpPage";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 

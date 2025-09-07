@@ -8,8 +8,8 @@ const LogOutButton = () => {
     router.push("/login");
   };
   return (
-    <div className="flex w-full items-center justify-center gap-2">
-      <LuLogOut className="text-xl font-bold text-blue-500" />
+    <div className="flex w-full items-center justify-center gap-2 transition-all ease-in-out hover:scale-x-105 cursor-pointer">
+      <LuLogOut className="text-xl font-bold text-red-400" />
       <p
         className="font- text-center text-red-500"
         onClick={() => {

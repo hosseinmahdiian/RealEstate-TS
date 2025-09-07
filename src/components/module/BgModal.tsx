@@ -28,7 +28,7 @@ const Bg_Modal: React.FC<BgModalProps> = ({
           FN();
           console.log("//");
         }}
-        className={`fixed -top-10 right-0 left-0 h-full w-full bg-black ${z} opacity-30`}
+        className={`fixed -top-0 right-0 left-0 h-full w-full bg-black ${z} opacity-30`}
       />
     )
   );

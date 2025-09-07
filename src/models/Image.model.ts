@@ -1,12 +1,5 @@
-// models/Image.ts
-import mongoose, { Schema, model, models } from "mongoose";
-
-interface IImage {
-  filename: string;
-  data: Buffer;
-  contentType: string;
-  createdAt: Date;
-}
+import { IImage } from "@/types/dataType.type";
+import { Schema, model, models } from "mongoose";
 
 const ImageSchema = new Schema<IImage>({
   filename: { type: String, required: true },

@@ -12,10 +12,16 @@ interface GalleryImage {
 interface UploadGalleryProps {
   gallery: GalleryImage[];
   setGallery: Dispatch<SetStateAction<GalleryImage[]>>;
+  disabled?: boolean;
 }
 
-const UploadGallery: FC<UploadGalleryProps> = ({ gallery, setGallery }) => {
+const UploadGallery: FC<UploadGalleryProps> = ({
+  gallery,
+  setGallery,
+  disabled = false,
+}) => {
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (disabled) return;
     const files = e.target.files;
     if (!files) return;
 
@@ -23,7 +29,6 @@ const UploadGallery: FC<UploadGalleryProps> = ({ gallery, setGallery }) => {
     Array.from(files).forEach((file) => formData.append("files", file));
 
     const data = await UploadGalleryAPI(formData);
-    // console.log(data?.images);
 
     if (data.images && Array.isArray(data.images)) {
       // هر آیتم شامل _id و path است
@@ -38,6 +43,8 @@ const UploadGallery: FC<UploadGalleryProps> = ({ gallery, setGallery }) => {
   };
 
   const handleDelete = async (id: string) => {
+    if (disabled) return;
+
     const res = await DeleteImageAPI(id);
     if (res.success) {
       setGallery((prev) => prev.filter((item) => item.id !== id));
@@ -52,7 +59,7 @@ const UploadGallery: FC<UploadGalleryProps> = ({ gallery, setGallery }) => {
         <p className="mt-4 mb-5">گالری تصاویر</p>
         <label
           htmlFor="gallery"
-          className={`mb-3 inline-block cursor-pointer rounded-lg bg-blue-200 px-4 py-2 text-sm text-gray-500 ${
+          className={`${disabled && "!cursor-not-allowed !bg-blue-50 !text-gray-700"} mb-3 inline-block cursor-pointer rounded-lg bg-blue-200 px-4 py-2 text-sm text-gray-500 ${
             gallery?.length > 8 && "!bg-blue-100 !text-gray-700"
           }`}
         >
@@ -65,7 +72,7 @@ const UploadGallery: FC<UploadGalleryProps> = ({ gallery, setGallery }) => {
         className="hidden"
         multiple
         accept="image/*"
-        disabled={gallery?.length > 8}
+        disabled={gallery?.length > 8 || disabled}
         onChange={handleUpload}
       />
 
@@ -77,7 +84,7 @@ const UploadGallery: FC<UploadGalleryProps> = ({ gallery, setGallery }) => {
               className="relative h-14 w-14 overflow-hidden rounded-lg"
             >
               <div
-                className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/30"
+                className={`absolute inset-0 flex cursor-pointer items-center justify-center bg-black/30 ${disabled && "!cursor-not-allowed"} `}
                 onClick={() => handleDelete(img.id)}
               >
                 <TfiTrash className="text-xl text-white" />

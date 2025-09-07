@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
     if (!files || files.length === 0) {
       return NextResponse.json(
-        { error: "هیچ فایلی ارسال نشد" },
+        { success: false, error: "هیچ فایلی ارسال نشد" },
         { status: 400 },
       );
     }
@@ -36,11 +36,15 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({
+      success: true,
       message: "آپلود موفق",
       images: uploadedImages,
     });
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ error: "خطا در آپلود" }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: "خطا در آپلود" },
+      { status: 500 },
+    );
   }
 }

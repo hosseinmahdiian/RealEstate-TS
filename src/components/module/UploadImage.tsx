@@ -7,10 +7,16 @@ import { UploadImageAPI } from "@/services/UploadImage.api";
 interface UploadImageProps {
   image: { url: string; id: string } | null;
   setImage: Dispatch<SetStateAction<{ url: string; id: string } | null>>;
+  disabled?: boolean;
 }
 
-const UploadImage: FC<UploadImageProps> = ({ image, setImage }) => {
+const UploadImage: FC<UploadImageProps> = ({
+  image,
+  setImage,
+  disabled = false,
+}) => {
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (disabled) return;
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -18,7 +24,6 @@ const UploadImage: FC<UploadImageProps> = ({ image, setImage }) => {
     formData.append("file", file);
 
     const data = await UploadImageAPI(formData);
-    console.log(data);
 
     if (data.success && data?.image?.url) {
       setImage({ url: data?.image?.url, id: data?.image?.id });
@@ -26,6 +31,7 @@ const UploadImage: FC<UploadImageProps> = ({ image, setImage }) => {
   };
 
   const handleDelete = async () => {
+    if (disabled) return;
     if (!image?.id) return;
     const res = await DeleteImageAPI(image.id);
     if (res.success) setImage(null);
@@ -37,16 +43,19 @@ const UploadImage: FC<UploadImageProps> = ({ image, setImage }) => {
       <p>افزودن عکس اصلی</p>
       <div className="flex justify-end">
         <input
+          disabled={disabled}
           type="file"
           id="image"
           className="hidden"
           accept="image/*"
           onChange={handleUpload}
         />
-        <div className="relative h-14 w-14 overflow-hidden rounded-lg bg-white">
+        <div
+          className={`relative h-14 w-14 overflow-hidden rounded-lg bg-blue-200`}
+        >
           {image?.url ? (
             <div
-              className="relative h-full w-full cursor-pointer"
+              className={`${disabled && "!cursor-not-allowed "} relative h-full w-full cursor-pointer`}
               onClick={handleDelete}
             >
               <span className="absolute inset-0 flex items-center justify-center bg-black/30">
@@ -61,7 +70,7 @@ const UploadImage: FC<UploadImageProps> = ({ image, setImage }) => {
           ) : (
             <label
               htmlFor="image"
-              className="flex h-full w-full cursor-pointer items-center justify-center bg-blue-200 text-center text-sm text-gray-500"
+              className={`${disabled && "!cursor-not-allowed !bg-blue-50 !text-gray-700"} flex h-full w-full cursor-pointer items-center justify-center text-center text-sm text-gray-500`}
             >
               انتخاب عکس
             </label>

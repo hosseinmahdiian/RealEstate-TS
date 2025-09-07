@@ -2,26 +2,32 @@
 import React, { useActionState, useEffect, useState } from "react";
 import Button from "../module/button";
 import Input from "../module/input";
-import { onChengFormHandel } from "@/function/function";
+import { onChengFormHandel } from "@/function/functions";
 import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { ProfileDataType } from "@/types/dataType.type";
-import TextAria from "../module/Textaria";
+import { AdvertisementType } from "@/types/dataType.type";
+import TextAria from "@/module/Textaria";
 import RadioCateGoresList from "./RadioCateGoresList";
 import InputTextList from "../module/InputTextList";
 import Calender from "../module/Calender";
 import MAP from "../module/Map/MapMain";
-import { LatLngData } from "src/interfaces/interface";
 import { FetchAddressNeshan } from "@/services/Neshan.api";
 import UploadGallery from "../module/UploadGallery";
 import UploadImage from "../module/UploadImage";
+import {
+  LatLngData,
+  ResponseInterface,
+} from "@/interface/interfaces.interface";
+import { CategoryEnum } from "@/enum/enums.enum";
+import { AddAdAPI } from "@/services/AddAd.api";
+import { EditAdAPI } from "@/services/EditAd.api";
 
 interface GalleryImage {
   id: string;
   url: string;
 }
-const reset: ProfileDataType = {
+const reset: AdvertisementType = {
   title: "",
   image: "",
   gallery: [],
@@ -32,14 +38,17 @@ const reset: ProfileDataType = {
   price: "",
   realState: "",
   constructionDate: "",
-  category: "",
+  category: CategoryEnum.Empty,
   amenities: [],
   rules: [],
 };
-
-const AddPage = () => {
+interface AD {
+  ad: AdvertisementType;
+}
+const EditAdPage = ({ ad }: AD) => {
   const router = useRouter();
   const [modal, setModal] = useState<boolean>(false);
+  const [hasInitialized, setHasInitialized] = useState<boolean>(true);
   const [location, setLocation] = useState<LatLngData | null>(null);
   const [gallery, setGallery] = useState<GalleryImage[]>([]);
   const [image, setImage] = useState<{ url: string; id: string } | null>({
@@ -47,37 +56,25 @@ const AddPage = () => {
     id: "",
   });
 
-  const [data, setData] = useState<ProfileDataType>({
-    title: "",
-    image: "",
-    gallery: [],
-    description: "",
-    location: null, // [lat, lng]
-    address: "",
-    mobile: "",
-    price: "",
-    realState: "",
-    constructionDate: "",
-    category: "",
-    amenities: [],
-    rules: [],
+  const [data, setData] = useState<AdvertisementType>(reset);
+  const [messages, setMessages] = useState<AdvertisementType>(reset);
+
+  const { mutate: mutateEditAd, isPending: isPendingEditAd } = useMutation({
+    mutationKey: ["EditAd"],
+    mutationFn: EditAdAPI,
+    onSuccess: (data: ResponseInterface) => {
+      if (data?.success) {
+        toast.success(String(data?.message));
+        setData(reset);
+        router.push("/dashboard/myAd");
+      } else {
+        toast.error(data.error || "خطایی رخ داده است");
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message || "خطایی رخ داده است");
+    },
   });
-  const [messages, setMessages] = useState<ProfileDataType>({
-    title: "",
-    image: "",
-    gallery: [],
-    description: "",
-    location: null, // [lat, lng]
-    address: "",
-    mobile: "",
-    price: "",
-    realState: "",
-    constructionDate: "",
-    category: "",
-    amenities: [],
-    rules: [],
-  });
-  console.log(image, gallery);
 
   const {
     mutate: mutateFetchAddress,
@@ -88,12 +85,14 @@ const AddPage = () => {
     mutationFn: FetchAddressNeshan,
     onSuccess: (data) => {
       if (data?.status == "OK") {
+        console.log(data);
+
         setData((prev) => ({
           ...prev,
-          address: data.formatted_address,
+          address: data.neighbourhood,
           location,
         }));
-        toast.success("آدرس دقیق وارد شد ");
+        toast.success("محدوده ملک وارد شد ");
       }
     },
     onError: (error) => {
@@ -102,14 +101,40 @@ const AddPage = () => {
   });
 
   useEffect(() => {
-    if (location?.lat && location?.lng) {
-      mutateFetchAddress({ lat: location.lat, lng: location.lng });
+    if (ad) {
+      setData(ad);
+      setGallery(
+        ad.gallery?.map((url, idx) => ({ id: String(idx), url })) || [],
+      );
+      setImage(ad.image ? { url: ad.image, id: "main" } : null);
+      if (ad.location) {
+        setLocation({
+          lat: +ad.location.lat,
+          lng: +ad.location.lng,
+        });
+      } else {
+        setLocation(null);
+      }
+    }
+  }, [ad]);
+
+  useEffect(() => {
+    if (hasInitialized) {
+      if (data?.address) {
+        setHasInitialized(false);
+      } else if (location) {
+        mutateFetchAddress({ lat: location.lat, lng: location.lng });
+      }
     } else {
-      setData((prev) => ({
-        ...prev,
-        address: "",
-        location: null,
-      }));
+      if (location?.lat && location?.lng) {
+        mutateFetchAddress({ lat: location.lat, lng: location.lng });
+      } else {
+        setData((prev) => ({
+          ...prev,
+          address: "",
+          location: null,
+        }));
+      }
     }
   }, [location]);
 
@@ -127,50 +152,11 @@ const AddPage = () => {
     }));
   }, [gallery]);
 
-  // const { mutate, isPending } = useMutation({
-  //   mutationKey: ["signup"],
-  //   mutationFn: SignUp,
-  //   onSuccess: (data) => {
-  //     if (data?.success) {
-  //       toast.success(data.message);
-  //       setData({
-  //         email: "",
-  //         password: "",
-  //         confirmPassword: "",
-  //         fullName: "",
-  //         mobile: "",
-  //       });
-  //       router.push("/login");
-  //     } else {
-  //       toast.error(data.error || "خطایی رخ داده است");
-  //     }
-  //   },
-  //   onError: (error) => {
-  //     toast.error(error.message || "خطایی رخ داده است");
-  //   },
-  // });
-
-  async function sinUpAction(
-    prevState: ProfileDataType | null,
+  async function editAdFormActionFN(
+    prevState: AdvertisementType | null,
     formData: FormData,
   ) {
     let accept = true;
-    // const title = formData.get("title") as string;
-    // const image = formData.get("image") as string;
-    // const gallery = formData.getAll("gallery") as string[]; // چون ممکنه چندتا عکس باشه
-    // const description = data?.description;
-    // const location = [
-    //   (formData.get("lat") as string) || "",
-    //   (formData.get("lng") as string) || "",
-    // ] as [string, string];
-    // const address = formData.get("address") as string;
-    // const mobile = formData.get("mobile") as string;
-    // const price = formData.get("price") as string;
-    // const realState = formData.get("realState") as string;
-    // const constructionDate = formData.get("constructionDate") as string;
-    // const category = formData.get("category") as string;
-    // const amenities = formData.getAll("amenities") as string[];
-    // const rules = formData.getAll("rules") as string[];
 
     setMessages(reset);
 
@@ -181,7 +167,7 @@ const AddPage = () => {
       }));
       accept = false;
     }
-    if (!data.mobile) {
+    if (!data.mobile || data.mobile.length != 11) {
       setMessages((prev) => ({
         ...prev,
         mobile: "شماره تماس را وارد کنید",
@@ -224,88 +210,102 @@ const AddPage = () => {
       }));
       accept = false;
     }
-
-    const result: ProfileDataType = data;
+    if (!data.category) {
+      setMessages((prev) => ({
+        ...prev,
+        category: CategoryEnum.Error,
+      }));
+      accept = false;
+    }
+    const result: AdvertisementType = data;
 
     !accept && toast.error("موارد زیر را بررسی کنید");
     accept && console.log("اطلاعات فرم:", result);
-    // accept && mutate( result);
+    accept && mutateEditAd(result);
 
     return result;
   }
 
-  const [formData, formAction, isPending2] = useActionState(sinUpAction, reset);
+  const [formData, formAction, isPending2] = useActionState(
+    editAdFormActionFN,
+    reset,
+  );
+  console.log(data);
 
   return (
-    <div className="overflow-y-scroll md:h-[calc(100vh-120px)]">
+    <>
       <p className="mt-2 text-center text-xl font-bold text-blue-500">
-        افزودن آگهی
+        ویرایش آگهی
       </p>
       <form
         className="child:mt-10 grid grid-cols-1 gap-2 px-4 md:grid-cols-2 lg:grid-cols-6"
         action={formAction}
       >
         <Input
-          title="title"
+          title="عنوان آگهی"
           FN={(e) => onChengFormHandel(setData, e)}
           data={data.title}
           alert={messages.title}
           name="title"
           style="lg:col-span-2"
-          // disabled={isPending}
+          disabled={isPendingEditAd}
         />
 
         <Input
-          title="price"
-          FN={(e) => onChengFormHandel(setData, e)}
+          title="مبلغ"
+          FN={(e) => onChengFormHandel(setData, e, true)}
           data={data.price}
           alert={messages.price}
           name="price"
           style="lg:col-span-2"
-          // disabled={isPending}
+          disabled={isPendingEditAd}
         />
 
         <Input
-          title="realState"
+          title="آژانس املاک"
           FN={(e) => onChengFormHandel(setData, e)}
           data={data.realState}
           alert={messages.realState}
           name="realState"
           style="lg:col-span-2"
-          // disabled={isPending}
+          disabled={isPendingEditAd}
         />
 
         <Input
-          title="mobile"
-          FN={(e) => onChengFormHandel(setData, e)}
+          title="شماره تماس"
+          FN={(e) => onChengFormHandel(setData, e, true, true)}
           data={data.mobile}
           alert={messages.mobile}
           name="mobile"
           style="lg:col-span-2"
-          // disabled={isPending}
+          disabled={isPendingEditAd}
         />
 
         <RadioCateGoresList
           set={setData}
-          title="category"
+          title="دسته بندی"
           alert={messages.category}
+          data={data.category}
           style="lg:col-span-2"
-
-          // disabled={isPending}
+          disabled={isPendingEditAd}
         />
         <Input
-          title="address"
+          title="محدوده"
           FN={(e) => onChengFormHandel(setData, e)}
           data={data.address}
           alert={messages.address}
           name="address"
           style="lg:col-span-2"
-
-          // disabled={isPending}
+          placeholder="از روی نقشه محدوده را انتخاب کنید"
+          disabled={isPendingEditAd}
         />
 
         <div className="aspect-square w-full lg:col-span-3">
-          <MAP data={location} setData={setLocation} />
+          <MAP
+            data={location}
+            setData={setLocation}
+            disabled={isPendingEditAd}
+          />
         </div>
 
         <div className="w-full lg:col-span-3">
@@ -316,34 +316,46 @@ const AddPage = () => {
             modal={modal}
             set={setData}
             alert={String(messages.constructionDate)}
+            disabled={isPendingEditAd}
           />
-          <UploadImage image={image} setImage={setImage} />
-          <UploadGallery gallery={gallery} setGallery={setGallery} />
+          <UploadImage
+            image={image}
+            setImage={setImage}
+            disabled={isPendingEditAd}
+          />
+          <UploadGallery
+            gallery={gallery}
+            setGallery={setGallery}
+            disabled={isPendingEditAd}
+          />
         </div>
 
         <TextAria
-          title="description"
+          title="توضیحات"
           FN={(e) => onChengFormHandel(setData, e)}
           data={data.description}
           alert={messages.description}
           name="description"
           style="lg:col-span-6 md:col-span-2"
-          // disabled={isPending}
+          disabled={isPendingEditAd}
         />
 
         <InputTextList
-          title="rules"
+          title="قوانین ملک"
           data={data}
           type="rules"
           set={setData}
           style="lg:col-span-3"
+          disabled={isPendingEditAd}
         />
+
         <InputTextList
-          title="amenities"
+          title="ویژگی های ملک"
           data={data}
           type="amenities"
           set={setData}
           style="lg:col-span-3"
+          disabled={isPendingEditAd}
         />
 
         <Button
@@ -355,15 +367,17 @@ const AddPage = () => {
             !data.address ||
             !data.realState ||
             !data?.mobile ||
-            !data.description
+            !data.description ||
+            !data.category ||
+            isPendingEditAd
           }
-          title="ثبت آگهی"
-          // isLoading={isPending}
+          title="ویرایش آگهی"
+          isLoading={isPendingEditAd}
           style="lg:col-span-6 md:col-span-2"
         />
       </form>
-    </div>
+    </>
   );
 };
 
-export default AddPage;
+export default EditAdPage;

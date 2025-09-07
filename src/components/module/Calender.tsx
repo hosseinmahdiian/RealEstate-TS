@@ -2,16 +2,16 @@ import React, { Dispatch, SetStateAction } from "react";
 import { Calendar } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
-import { ProfileDataType } from "@/types/dataType.type";
+import { AdvertisementType } from "@/types/dataType.type";
 import Bg_Modal from "./BgModal";
 import { FaStarOfLife } from "react-icons/fa6";
 type InputProps = {
   data?: string;
   title?: string;
-  name?: string | keyof ProfileDataType;
+  name?: string | keyof AdvertisementType;
   alert?: string | false;
   disabled?: boolean;
-  set: Dispatch<SetStateAction<ProfileDataType>>;
+  set: Dispatch<SetStateAction<AdvertisementType>>;
   style?: string;
   modal: boolean;
   setModal: Dispatch<SetStateAction<boolean>>;
@@ -25,6 +25,7 @@ const Calender = ({
   modal,
   style = "",
   setModal,
+  disabled = false,
 }: InputProps) => {
   return (
     <>
@@ -33,13 +34,15 @@ const Calender = ({
         className={`text-middle mt relative mx-auto h-8 w-full lg:col-span-6 ${style} ${
           alert && "!mb-13"
         } flex cursor-pointer items-center rounded-lg px-3 py-2`}
-        onClick={() => setModal(true)}
+        onClick={() => {
+          !disabled && setModal(true);
+        }}
       >
         <p className="start-1 -top-3 bg-white px-2 text-sm text-gray-500">
           تاریخ ساخت
         </p>
 
-        <p className="w-fit rounded-lg bg-blue-200 px-2 pt-0.5 text-gray-500">
+        <p className={`${disabled &&" !bg-blue-50 cursor-not-allowed !text-gray-700"} w-fit rounded-lg bg-blue-200 px-2 pt-0.5 text-gray-500`}>
           {String(data || "انتخاب تاریخ")}
         </p>
 
@@ -51,7 +54,7 @@ const Calender = ({
         )}
       </div>
       <Calendar
-        className={`fixed top-1/4  right-0 left-0 z-[150] mx-auto !rounded-[14px] p-5 ease-in-out ${modal ? "" : "hidden"} `}
+        className={`fixed top-1/4 right-0 left-0 z-[150] mx-auto !rounded-[14px] p-5 ease-in-out ${modal ? "" : "hidden"} `}
         value={data}
         // id={name}
         // name={name}

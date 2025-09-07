@@ -6,8 +6,8 @@ import LogOutButton from "../module/LogOutButton";
 import { usePathname } from "next/navigation";
 const links = [
   { href: "/dashboard", label: "حساب کاربری" },
-  { href: "/dashboard/my-profile", label: "آگهی های من" },
-  { href: "/dashboard/add", label: "ثبت آگهی" },
+  { href: "/dashboard/myAd", label: "آگهی های من" },
+  { href: "/dashboard/addAd", label: "ثبت آگهی" },
 ];
 const SideBarProfile = () => {
   const { data: session } = useSession();
@@ -17,7 +17,7 @@ const SideBarProfile = () => {
   return (
     <div className="h-fit w-full rounded-xl bg-blue-200 py-5 shadow shadow-blue-300">
       <div className="flex w-full items-center justify-between gap-3 md:block md:px-1">
-        <div className="mr-1 w-fit cursor-pointer md:mr-0">
+        <div className="mr-1 w-fit md:!mx-auto md:mr-0">
           {profile ? (
             <img
               src={profile}
@@ -33,9 +33,9 @@ const SideBarProfile = () => {
           <h2 className="mb-2 line-clamp-1 text-lg font-bold text-wrap text-black">
             {fullName}
           </h2>
-          <p className="line-clamp-1 text-gray-500" dir="ltr">
+          {/* <p className="line-clamp-1 text-gray-500" dir="ltr">
             {email}
-          </p>
+          </p> */}
         </div>
       </div>
 

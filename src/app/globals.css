@@ -17,3 +17,37 @@
 .leaflet-control-attribution > span {
   display: none !important;
 }
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-thumb::-webkit-scrollbar {
+  display: inline-block !important ;
+  width: 10px;
+  direction: rtl;
+}
+
+.scrollbar-thumb::-webkit-scrollbar-track {
+  background: #f5f3f3 !important;
+  border-radius: 40px;
+}
+
+.scrollbar-thumb::-webkit-scrollbar-thumb {
+  background: #9e8a8a !important;
+  border-radius: 40px;
+}
+.scrollbar-thumb {
+  scrollbar-width: 2px !important;
+  -ms-overflow-style: none !important;
+}
+
+input[type="number"] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}

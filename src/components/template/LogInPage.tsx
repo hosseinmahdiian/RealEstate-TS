@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/module/button";
 import Input from "@/components/module/input";
-import { onChengFormHandel } from "@/function/function";
+// import { onChengFormHandel } from "@/functions/function";
 import Link from "next/link";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
@@ -9,6 +9,7 @@ import { LogInType } from "src/types/dataType.type";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { emailRegex } from "@/utils/Regex";
+import { onChengFormHandel } from "@/function/functions";
 
 const LogInPage = () => {
   const router = useRouter();

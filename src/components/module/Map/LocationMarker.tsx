@@ -3,7 +3,7 @@ import { useMapEvents, Marker, Popup } from "react-leaflet";
 import { FC, MutableRefObject, useEffect, useState } from "react";
 import { ShopIcon } from "./MapIcons";
 import { LeafletMouseEvent, Map } from "leaflet";
-import { LatLngData } from "src/interfaces/interface";
+import { LatLngData } from "@/interface/interfaces.interface";
 import Image from "next/image";
 import location from "public/images/location.png";
 

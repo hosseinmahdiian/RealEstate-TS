@@ -1,5 +1,5 @@
 import { authOptions } from "@/api/auth/[...nextauth]/route";
-import DashboardPage from "@/components/template/DashboardPage";
+import DashboardPage from "@/template/DashboardPage";
 import { DateOption } from "@/constant/constant";
 import User from "@/models/user.model";
 import { ConnectDB } from "@/utils/connectDB";
@@ -9,14 +9,15 @@ export default async function Home() {
   await ConnectDB();
   const session = await getServerSession(authOptions);
   const findUser = await User.findOne({ email: session?.user?.email });
+  // console.log(session);
 
   return (
     <div className="">
       <DashboardPage
-        fullName={findUser.fullName}
-        email={findUser.email}
-        mobile={findUser.mobile}
-        createdAt={new Date(findUser.createdAt).toLocaleDateString(
+        fullName={findUser?.fullName}
+        email={findUser?.email}
+        mobile={findUser?.mobile}
+        createdAt={new Date(findUser?.createdAt).toLocaleDateString(
           "fa-IR",
           DateOption,
         )}

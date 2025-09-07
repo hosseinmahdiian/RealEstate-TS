@@ -1,22 +1,24 @@
 import React, { Dispatch, SetStateAction } from "react";
 import RadioInput from "../module/RadioInput";
 import { FaStarOfLife } from "react-icons/fa6";
-import { onChengRadioHandel } from "@/function/function";
-import { ProfileDataType } from "@/types/dataType.type";
+import { onChengRadioHandel } from "@/function/functions";
+import { AdvertisementType } from "@/types/dataType.type";
+import { CategoryEnum } from "@/enum/enums.enum";
 type RadioProps = {
   data?: string;
   title: string;
   alert?: string | false;
   disabled?: boolean;
-  set: Dispatch<SetStateAction<ProfileDataType>>;
+  set: Dispatch<SetStateAction<AdvertisementType>>;
   style?: string;
 };
 const RadioCateGoresList = ({
   title,
   alert,
-  disabled,
+  disabled = false,
   style,
   set,
+  data,
 }: RadioProps) => {
   return (
     <div
@@ -34,29 +36,33 @@ const RadioCateGoresList = ({
           title="ویلا"
           FN={(e) => onChengRadioHandel(set, e)}
           name="category"
-          id="ویلا"
-          // disabled={isPending}
+          id={CategoryEnum.Villa}
+          disabled={disabled}
+          data={data}
         />
         <RadioInput
           title="آپارتمان"
           FN={(e) => onChengRadioHandel(set, e)}
           name="category"
-          id="آپارتمان"
-          // disabled={isPending}
+          id={CategoryEnum.Apartment}
+          disabled={disabled}
+          data={data}
         />
         <RadioInput
           title="دفتر"
           FN={(e) => onChengRadioHandel(set, e)}
           name="category"
-          id="دفتر"
-          // disabled={isPending}
-        />{" "}
+          id={CategoryEnum.Office}
+          disabled={disabled}
+          data={data}
+        />
         <RadioInput
           title="مغازه"
           FN={(e) => onChengRadioHandel(set, e)}
           name="category"
-          id="مغازه"
-          // disabled={isPending}
+          id={CategoryEnum.Store}
+          disabled={disabled}
+          data={data}
         />
       </div>
 

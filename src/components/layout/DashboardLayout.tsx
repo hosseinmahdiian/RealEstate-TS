@@ -1,19 +1,19 @@
-"use client";
 import { authOptions } from "@/api/auth/[...nextauth]/route";
-import { ChildrenType, SignUpType } from "@/types/dataType.type";
+import { ChildrenType } from "@/types/dataType.type";
 import { getServerSession } from "next-auth";
-import { HiOutlineUserCircle } from "react-icons/hi";
 import SideBarProfile from "../template/SideBarProfile";
-import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
-const DashboardLayout = ({ children }: ChildrenType) => {
-  const { data: session } = useSession();
+const DashboardLayout = async ({ children }: ChildrenType) => {
+  const session = await getServerSession(authOptions);
   !session && redirect("/login");
   return (
-    <div className="mt-3 grid grid-cols-1 md:grid-cols-4 md:gap-3">
+    <div className="child:mt-3 grid grid-cols-1 md:grid-cols-4 md:gap-3">
       <SideBarProfile />
-      <div className="col-span-3">{children}</div>
+      <div className=" !mt-2
+      col-span-3 overflow-y-scroll md:h-[calc(100vh-120px)]">
+        {children}
+      </div>
     </div>
   );
 };

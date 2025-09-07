@@ -1,11 +1,12 @@
 import { ResponseInterface } from "@/interface/interfaces.interface";
+import { AdvertisementType } from "@/types/dataType.type";
 import axios from "axios";
 
-export const DeleteImageAPI = async (
-  id: string,
-): Promise<ResponseInterface> => {
+export const DeleteAdAPI = async (id: string): Promise<ResponseInterface> => {
+  console.log(id);
+
   try {
-    const res = await axios.delete(`/api/deleteImage?id=${id}`);
+    const res = await axios.delete(`/api/Ad/delete?id=${id}`);
     console.log(res.data);
     return res.data;
   } catch (error: any) {

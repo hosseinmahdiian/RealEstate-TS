@@ -1,5 +1,5 @@
 import { authOptions } from "@/api/auth/[...nextauth]/route";
-import LogInPage from "@/components/template/LogInPage";
+import LogInPage from "@/template/LogInPage";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 

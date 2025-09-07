@@ -1,3 +1,4 @@
+import { CategoryEnum } from "@/enum/enums.enum";
 import { Dispatch, SetStateAction } from "react";
 import { InputChangeEvent } from "src/types/dataType.type";
 
@@ -106,4 +107,13 @@ export const onChengRadioHandel = <T>(
     ...prev,
     [name]: id,
   }));
+};
+
+export const categoryFaMap: Record<CategoryEnum, string> = {
+  [CategoryEnum.Villa]: "ویلا",
+  [CategoryEnum.Apartment]: "آپارتمان",
+  [CategoryEnum.Office]: "دفتر",
+  [CategoryEnum.Store]: "مغازه",
+  [CategoryEnum.Error]: "-",
+  [CategoryEnum.Empty]: "-",
 };

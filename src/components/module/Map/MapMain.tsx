@@ -4,15 +4,25 @@ import { FC, useEffect, useRef, useState } from "react";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { LatLng, LatLngExpression, Map as LeafletMap } from "leaflet";
-import { MAPProps } from "src/interfaces/interface";
+import { MAPProps } from "@/interface/interfaces.interface";
 import LocationMarker from "./LocationMarker";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import { userIcon } from "./MapIcons";
+import Bg_Modal from "../BgModal";
 
-const MAP: FC<MAPProps> = ({ data, setData }) => {
+const MAP: FC<MAPProps> = ({ data, setData, disabled = false }) => {
   const mapRef = useRef<LeafletMap | null>(null);
 
-  const center: LatLngExpression = [35.6997, 51.3379];
+  const center: LatLngExpression = [35.6997, 51.3379]; // پیش‌فرض
+
+  useEffect(() => {
+    if (!mapRef.current) return;
+    if (data?.lat && data?.lng) {
+      const lat = Number(data.lat);
+      const lng = Number(data.lng);
+      mapRef.current.setView([lat, lng], mapRef.current.getZoom());
+    }
+  }, [data]);
 
   const [position, setPosition] = useState<LatLng | null>(null);
 
@@ -26,6 +36,11 @@ const MAP: FC<MAPProps> = ({ data, setData }) => {
 
   return (
     <div className="relative z-0 h-full w-full overflow-hidden rounded-xl">
+      <Bg_Modal
+        modal={disabled}
+        setModal={() => {}}
+        z="!absolute !z-[100000] top-0 !bg-gray-300 !cursor-not-allowed"
+      />
       <MapContainer
         center={center}
         zoom={14}
@@ -52,7 +67,7 @@ const MAP: FC<MAPProps> = ({ data, setData }) => {
         {position && <Marker icon={userIcon} position={position} />}
       </MapContainer>
       <span
-        className="leaflet-map-pane absolute right-4 bottom-5 !z-[1000000000] flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white shadow"
+        className="leaflet-map-pane absolute right-4 bottom-5 !z-[2000] flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white shadow"
         onClick={locateUser}
       >
         <FaLocationCrosshairs className="text-xl" />
