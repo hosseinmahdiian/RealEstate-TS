@@ -1,5 +1,4 @@
-import { authOptions } from "@/api/auth/[...nextauth]/route";
-import DashboardLayout from "@/components/layout/DashboardLayout";
+import DashboardLayout from "@/layout/DashboardLayout";
 import { ChildrenType } from "src/types/dataType.type";
 
 export const metadata = {

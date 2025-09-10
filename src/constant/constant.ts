@@ -5,3 +5,4 @@ export const DateOption: Intl.DateTimeFormatOptions  = {
   day: "2-digit",
   numberingSystem: "latn",
 };
+

@@ -5,7 +5,7 @@ import { authOptions } from "../auth/[...nextauth]/route";
 import { AdvertisementType } from "@/types/dataType.type";
 import Advertisement from "@/models/Advertisement.model";
 import User from "@/models/user.model";
-import mongoose, { Types } from "mongoose";
+import mongoose from "mongoose";
 
 export async function POST(req: Request) {
   const body: AdvertisementType = await req.json();
@@ -24,6 +24,7 @@ export async function POST(req: Request) {
     category,
     amenities,
     rules,
+    rent,
   } = body;
 
   try {
@@ -94,6 +95,11 @@ export async function PATCH(req: Request) {
     category,
     amenities,
     rules,
+    rent,
+    city,
+    province,
+    typeOf,
+    view,
   } = body;
 
   try {
@@ -123,7 +129,10 @@ export async function PATCH(req: Request) {
       !price ||
       !constructionDate ||
       !realState ||
-      !category
+      !category ||
+      !city ||
+      !province ||
+      (typeOf && !rent)
     ) {
       return NextResponse.json(
         { success: false, error: "داده‌های ضروری را وارد کنید" },
@@ -154,6 +163,11 @@ export async function PATCH(req: Request) {
         category,
         amenities,
         rules,
+        rent,
+        city,
+        province,
+        typeOf,
+        view,
       },
       { new: true, runValidators: true },
     );
@@ -169,6 +183,19 @@ export async function PATCH(req: Request) {
       { success: true, message: "آگهی ویرایش شد", data: updatedAd },
       { status: 200 },
     );
+  } catch (err: any) {
+    return NextResponse.json(
+      { success: false, error: err.message || "مشکلی در سرور پیش اومده" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    await ConnectDB();
+    const ads = await Advertisement.find().select("-userID");
+    return NextResponse.json({ success: true, data: ads }, { status: 200 });
   } catch (err: any) {
     return NextResponse.json(
       { success: false, error: err.message || "مشکلی در سرور پیش اومده" },

@@ -27,22 +27,32 @@ export type IImage = {
 };
 export type AdvertisementType = {
   title: string;
-  image?: string;
-  gallery?: string[];
-  description: string;
-  location?: { lat: number | string; lng: number | string } | null;
-  address: string;
   mobile: string;
+  address: string;
+  description: string;
   price: string | "توافقی";
   realState: string | "کاربر";
   constructionDate: Date | string;
-  category?: CategoryEnum;
-  amenities?: string[];
-  rules?: string[];
+  typeOf: boolean;
+  city: string;
+  province: string;
+  view: number;
+  _id?: string;
+  image?: string;
   userID?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  _id?: string;
+  rules?: string[];
+  gallery?: string[];
+  amenities?: string[];
+  category?: CategoryEnum;
+  rent?: string | "توافقی";
+  location?: { lat: number | string; lng: number | string } | null;
+};
+
+export type ParamsAndSearchPramsType = {
+  params: { [key: string]: string };
+  searchParams?: { [key: string]: string | string[] };
 };
 
 export type InputChangeEvent = React.ChangeEvent<

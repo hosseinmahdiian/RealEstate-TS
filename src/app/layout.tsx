@@ -1,7 +1,7 @@
 import "./globals.css";
 import { ChildrenType } from "src/types/dataType.type";
 import { YekanBakh } from "@/utils/fonts";
-import Layout from "@/components/layout/Layout";
+import Layout from "@/layout/Layout";
 import { Toaster } from "react-hot-toast";
 import NextAuthProvider from "@/provider/NextAuthProvider.provider";
 import ReactQueryProvider from "@/provider/ReqctQuery.provider";

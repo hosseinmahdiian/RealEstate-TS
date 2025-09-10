@@ -1,4 +1,5 @@
+import MainPage from "@/template/MainPage";
 
 export default function Home() {
-  return <div className="">سلامسس</div>;
+  return <MainPage />;
 }

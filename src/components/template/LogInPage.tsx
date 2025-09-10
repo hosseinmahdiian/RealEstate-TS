@@ -1,6 +1,6 @@
 "use client";
-import Button from "@/components/module/button";
-import Input from "@/components/module/input";
+import Button from "@/module/button";
+import Input from "@/module/input";
 // import { onChengFormHandel } from "@/functions/function";
 import Link from "next/link";
 import React, { useState } from "react";

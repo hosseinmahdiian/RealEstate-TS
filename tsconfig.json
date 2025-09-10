@@ -30,7 +30,7 @@
       "@/function/*": ["src/functions/*"],
       "@/interface/*": ["src/interfaces/*"],
       "@/services/*": ["src/services/*"],
-      "@/components/*": ["src/components/*"],
+      // "@/components/*": ["src/components/*"],
       "@/layout/*": ["src/components/layout/*"],
       "@/module/*": ["src/components/module/*"],
       "@/template/*": ["src/components/template/*"]

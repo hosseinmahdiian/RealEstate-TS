@@ -1,6 +1,6 @@
 "use client";
-import Button from "@/components/module/button";
-import Input from "@/components/module/input";
+import Button from "@/module/button";
+import Input from "@/module/input";
 import { onChengFormHandel } from "@/function/functions";
 import { SignUp } from "@/services/SignUp.api";
 import { SignUpType } from "@/types/dataType.type";
@@ -33,7 +33,7 @@ const SignUpPage = () => {
     mutationFn: SignUp,
     onSuccess: (data) => {
       if (data?.success) {
-        toast.success(data.message);
+        toast.success(data?.message || " ۱۱۱حساب کاربری با موفقیت ایجاد شد");
         setData({
           email: "",
           password: "",

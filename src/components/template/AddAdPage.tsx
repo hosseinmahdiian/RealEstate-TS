@@ -21,6 +21,9 @@ import {
 } from "@/interface/interfaces.interface";
 import { CategoryEnum } from "@/enum/enums.enum";
 import { AddAdAPI } from "@/services/AddAd.api";
+import CheckBox from "../module/checkBox";
+import SetProvinces from "../module/SetProvinces";
+import SetCities from "../module/SetCity";
 
 interface GalleryImage {
   id: string;
@@ -35,16 +38,33 @@ const reset: AdvertisementType = {
   address: "",
   mobile: "",
   price: "",
+  rent: "",
   realState: "",
   constructionDate: "",
   category: CategoryEnum.Empty,
   amenities: [],
   rules: [],
+  city: "",
+  province: "",
+  typeOf: false,
+  view: 0,
 };
 
 const AddAdPage = () => {
   const router = useRouter();
   const [modal, setModal] = useState<boolean>(false);
+  const [rent, setRent] = useState<boolean>(false);
+  const [province, setProvince] = useState<{
+    id: number;
+    name: string;
+    slug: string;
+    tel_prefix: string;
+  }>({
+    id: 0,
+    name: "",
+    slug: "",
+    tel_prefix: "",
+  });
   const [location, setLocation] = useState<LatLngData | null>(null);
   const [gallery, setGallery] = useState<GalleryImage[]>([]);
   const [image, setImage] = useState<{ url: string; id: string } | null>({
@@ -104,6 +124,13 @@ const AddAdPage = () => {
       gallery: gallery?.length ? [...gallery.map((img) => img?.url)] : [],
     }));
   }, [gallery]);
+
+  useEffect(() => {
+    setData((prev) => ({
+      ...prev,
+      rent: "",
+    }));
+  }, [data.typeOf]);
 
   const { mutate: mutateAddAd, isPending: isPendingAddAd } = useMutation({
     mutationKey: ["AddAd"],
@@ -187,6 +214,27 @@ const AddAdPage = () => {
       }));
       accept = false;
     }
+    if (!data.province) {
+      setMessages((prev) => ({
+        ...prev,
+        province: "استان را وارد کنید",
+      }));
+      accept = false;
+    }
+    if (!data.city) {
+      setMessages((prev) => ({
+        ...prev,
+        city: "شهر را وارد کنید",
+      }));
+      accept = false;
+    }
+    if (!data.rent && rent) {
+      setMessages((prev) => ({
+        ...prev,
+        rent: "اجاره را وارد کنید",
+      }));
+      accept = false;
+    }
     const result: AdvertisementType = data;
 
     !accept && toast.error("موارد زیر را بررسی کنید");
@@ -204,6 +252,23 @@ const AddAdPage = () => {
       <p className="mt-2 text-center text-xl font-bold text-blue-500">
         افزودن آگهی
       </p>
+      <div className="mt-5 flex items-center gap-2 px-4 text-gray-500">
+        <p>خرید و فروش</p>
+        <CheckBox
+          data={rent}
+          title=""
+          FN={() => {
+            setRent(!rent);
+            setData((prev) => ({
+              ...prev,
+              typeOf: !rent,
+            }));
+          }}
+          disabled={isPendingAddAd}
+          name="rent"
+        />
+        <p>رهن و اجاره</p>
+      </div>
       <form
         className="child:mt-10 grid grid-cols-1 gap-2 px-4 md:grid-cols-2 lg:grid-cols-6"
         action={formAction}
@@ -217,17 +282,6 @@ const AddAdPage = () => {
           style="lg:col-span-2"
           disabled={isPendingAddAd}
         />
-
-        <Input
-          title="مبلغ"
-          FN={(e) => onChengFormHandel(setData, e, true)}
-          data={data.price}
-          alert={messages.price}
-          name="price"
-          style="lg:col-span-2"
-          disabled={isPendingAddAd}
-        />
-
         <Input
           title="آژانس املاک"
           FN={(e) => onChengFormHandel(setData, e)}
@@ -237,7 +291,6 @@ const AddAdPage = () => {
           style="lg:col-span-2"
           disabled={isPendingAddAd}
         />
-
         <Input
           title="شماره تماس"
           FN={(e) => onChengFormHandel(setData, e, true, true)}
@@ -247,7 +300,6 @@ const AddAdPage = () => {
           style="lg:col-span-2"
           disabled={isPendingAddAd}
         />
-
         <RadioCateGoresList
           set={setData}
           title="دسته بندی"
@@ -256,6 +308,42 @@ const AddAdPage = () => {
           style="lg:col-span-2"
           disabled={isPendingAddAd}
         />
+        <Input
+          title={rent ? "رهن" : "مبلغ"}
+          FN={(e) => onChengFormHandel(setData, e, true)}
+          data={data.price}
+          alert={messages.price}
+          name="price"
+          style="lg:col-span-2"
+          inputMode="numeric"
+          disabled={isPendingAddAd}
+        />{" "}
+        {rent && (
+          <Input
+            title="اجاره"
+            FN={(e) => onChengFormHandel(setData, e, true)}
+            data={data?.rent}
+            alert={messages?.rent}
+            name="rent"
+            inputMode="numeric"
+            style="lg:col-span-2"
+            disabled={isPendingAddAd}
+          />
+        )}
+        <div className="flex items-center gap-2 lg:col-span-2">
+          <SetProvinces
+            setData={setData}
+            setProvince={setProvince}
+            province={data.province}
+            alert={messages.province}
+          />
+          <SetCities
+            setData={setData}
+            province={province}
+            city={data.city}
+            alert={messages.city}
+          />
+        </div>
         <Input
           title="محدوده"
           FN={(e) => onChengFormHandel(setData, e)}
@@ -266,37 +354,36 @@ const AddAdPage = () => {
           placeholder="از روی نقشه محدوده را انتخاب کنید"
           disabled={isPendingAddAd}
         />
-
-        <div className="aspect-square w-full lg:col-span-3">
-          <MAP
-            data={location}
-            setData={setLocation}
-            disabled={isPendingAddAd}
-          />
+        <div className="grid grid-cols-1 gap-2 md:col-span-2 md:grid-cols-2 lg:col-span-6">
+          <div className="aspect-square w-full">
+            <MAP
+              data={location}
+              setData={setLocation}
+              disabled={isPendingAddAd}
+            />
+          </div>
+          <div className="w-full">
+            <Calender
+              data={String(data.constructionDate)}
+              name="constructionDate"
+              setModal={setModal}
+              modal={modal}
+              set={setData}
+              alert={String(messages.constructionDate)}
+              disabled={isPendingAddAd}
+            />
+            <UploadImage
+              image={image}
+              setImage={setImage}
+              disabled={isPendingAddAd}
+            />
+            <UploadGallery
+              gallery={gallery}
+              setGallery={setGallery}
+              disabled={isPendingAddAd}
+            />
+          </div>
         </div>
-
-        <div className="w-full lg:col-span-3">
-          <Calender
-            data={String(data.constructionDate)}
-            name="constructionDate"
-            setModal={setModal}
-            modal={modal}
-            set={setData}
-            alert={String(messages.constructionDate)}
-            disabled={isPendingAddAd}
-          />
-          <UploadImage
-            image={image}
-            setImage={setImage}
-            disabled={isPendingAddAd}
-          />
-          <UploadGallery
-            gallery={gallery}
-            setGallery={setGallery}
-            disabled={isPendingAddAd}
-          />
-        </div>
-
         <TextAria
           title="توضیحات"
           FN={(e) => onChengFormHandel(setData, e)}
@@ -306,7 +393,6 @@ const AddAdPage = () => {
           style="lg:col-span-6 md:col-span-2"
           disabled={isPendingAddAd}
         />
-
         <InputTextList
           title="قوانین ملک"
           data={data}
@@ -315,7 +401,6 @@ const AddAdPage = () => {
           style="lg:col-span-3"
           disabled={isPendingAddAd}
         />
-
         <InputTextList
           title="ویژگی های ملک"
           data={data}
@@ -324,7 +409,6 @@ const AddAdPage = () => {
           style="lg:col-span-3"
           disabled={isPendingAddAd}
         />
-
         <Button
           type="submit"
           disabled={
@@ -336,6 +420,9 @@ const AddAdPage = () => {
             !data?.mobile ||
             !data.description ||
             !data.category ||
+            (!data.rent && rent) ||
+            !data.city ||
+            !data.province ||
             isPendingAddAd
           }
           title="ثبت آگهی"
