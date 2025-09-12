@@ -6,7 +6,9 @@ import React from "react";
 
 const MainPage = async () => {
   await ConnectDB();
-  const allAd = await Advertisement.find().select("-userID");
+  const allAd = await Advertisement.find({ published: true }).select(
+    "-userID",
+  );
 
   return (
     <div className="mt-8">

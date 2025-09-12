@@ -6,6 +6,7 @@ const UserSchema = new Schema<UserType>({
   password: { type: String, required: true },
   fullName: { type: String, required: true },
   mobile: { type: String },
+  role: { type: String, default: "USER" },
   profile: { type: String },
   createdAt: { type: Date, default: () => Date.now(), immutable: true },
 });

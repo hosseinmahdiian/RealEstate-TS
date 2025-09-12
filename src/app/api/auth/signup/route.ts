@@ -3,6 +3,7 @@ import User from "@/models/user.model";
 import { hashPassword } from "@/utils/auth";
 import { ConnectDB } from "@/utils/connectDB";
 import { emailRegex } from "@/utils/Regex";
+import { UserType } from "@/types/dataType.type";
 
 export const POST = async (req: Request) => {
   const { email, password, fullName, mobile } = await req.json();
@@ -31,7 +32,7 @@ export const POST = async (req: Request) => {
       );
     }
 
-    const existUser = await User.findOne({ email });
+    const existUser: UserType | null = await User.findOne({ email });
     if (existUser) {
       return NextResponse.json(
         { success: false, error: "این ایمیل قبلا ثبت نام کرده است" },

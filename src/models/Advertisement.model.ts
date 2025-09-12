@@ -13,6 +13,7 @@ const AdvertisementSchema = new Schema<AdvertisementType>(
     category: { type: String, required: true },
     realState: { type: String, required: true },
     typeOf: { type: Boolean, default: false },
+    published: { type: Boolean, default: false },
     view: { type: Number, default: 0 },
     city: { type: String },
     province: { type: String },

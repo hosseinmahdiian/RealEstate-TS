@@ -7,8 +7,9 @@ export interface LatLngData {
 
 export interface MAPProps {
   data: LatLngData | null;
-  setData: (loc: LatLngData | null) => void;
+  setData?: (loc: LatLngData | null) => void;
   disabled?: boolean;
+  show?: boolean;
 }
 
 export interface ResponseInterface {

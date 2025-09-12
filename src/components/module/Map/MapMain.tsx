@@ -9,11 +9,19 @@ import LocationMarker from "./LocationMarker";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import { userIcon } from "./MapIcons";
 import Bg_Modal from "../BgModal";
+import { FaHome } from "react-icons/fa";
 
-const MAP: FC<MAPProps> = ({ data, setData, disabled = false }) => {
+const MAP: FC<MAPProps> = ({
+  data,
+  setData = () => {},
+  disabled = false,
+  show = false,
+}) => {
   const mapRef = useRef<LeafletMap | null>(null);
 
-  const center: LatLngExpression = [35.6997, 51.3379]; // پیش‌فرض
+  const center: LatLngExpression = data
+    ? [+data.lat, +data.lng]
+    : [35.6997, 51.3379];
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -32,6 +40,11 @@ const MAP: FC<MAPProps> = ({ data, setData, disabled = false }) => {
       setPosition(e.latlng);
       mapRef.current!.flyTo(e.latlng, mapRef.current!.getZoom());
     });
+  };
+
+  const locatePlace = () => {
+    if (!mapRef.current || !data?.lat || !data?.lng) return;
+    mapRef.current.flyTo([+data.lat, +data.lng], mapRef.current.getZoom());
   };
 
   return (
@@ -63,9 +76,22 @@ const MAP: FC<MAPProps> = ({ data, setData, disabled = false }) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         />
-        <LocationMarker data={data} setData={setData} mapRef={mapRef} />
+        <LocationMarker
+          data={data}
+          setData={setData}
+          mapRef={mapRef}
+          show={show}
+        />
         {position && <Marker icon={userIcon} position={position} />}
       </MapContainer>
+      {data?.lat && data?.lng && (
+        <span
+          className="leaflet-map-pane absolute right-4 bottom-14 !z-[2000] flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white shadow"
+          onClick={locatePlace}
+        >
+          <FaHome className="text-xl" />
+        </span>
+      )}
       <span
         className="leaflet-map-pane absolute right-4 bottom-5 !z-[2000] flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white shadow"
         onClick={locateUser}

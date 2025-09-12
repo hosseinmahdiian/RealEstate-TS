@@ -14,10 +14,12 @@ export type SignUpType = LogInType & {
   profile?: string;
 };
 export type UserType = LogInType & {
-  fullName: string;
+  fullName?: string;
   mobile?: string;
   profile?: string;
+  role?: string;
   createdAt?: Date;
+  _id?: string;
 };
 export type IImage = {
   filename: string;
@@ -34,6 +36,7 @@ export type AdvertisementType = {
   realState: string | "کاربر";
   constructionDate: Date | string;
   typeOf: boolean;
+  published?: boolean;
   city: string;
   province: string;
   view: number;

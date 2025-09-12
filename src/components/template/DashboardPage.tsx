@@ -4,8 +4,15 @@ type Props = {
   email?: string;
   mobile?: string;
   createdAt?: string;
+  role?: string;
 };
-const DashboardPage = ({ mobile, email, fullName, createdAt }: Props) => {
+const DashboardPage = ({
+  mobile,
+  email,
+  fullName,
+  createdAt,
+  role = "USER",
+}: Props) => {
   return (
     <div className="w-full">
       <div className="space-y-4 text-gray-700">

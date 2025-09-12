@@ -353,12 +353,14 @@ const EditAdPage = ({ ad }: AD) => {
             setProvince={setProvince}
             province={data.province}
             alert={messages.province}
+            disabled={isPendingFetchAddress}
           />
           <SetCities
             setData={setData}
             province={province}
             city={data.city}
             alert={messages.city}
+            disabled={isPendingFetchAddress}
           />
         </div>
         <Input
@@ -395,6 +397,7 @@ const EditAdPage = ({ ad }: AD) => {
               disabled={isPendingFetchAddress}
             />
             <UploadGallery
+              image={image?.url}
               gallery={gallery}
               setGallery={setGallery}
               disabled={isPendingFetchAddress}

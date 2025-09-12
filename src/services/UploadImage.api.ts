@@ -1,5 +1,5 @@
 import axios from "axios";
-interface UploadImageResponse {
+export interface UploadImageResponse {
   success: boolean;
   image?: { url: string; id: string; filename: string };
   error?: string;

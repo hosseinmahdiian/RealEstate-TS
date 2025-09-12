@@ -18,7 +18,6 @@ const AdvertisementsPage = ({ ads }: Props) => {
   const typeFilter = searchParams.get("type") || "all";
   const mostViewed = searchParams.get("mostViewed") === "true";
 
-  // هر تغییر search param باعث رندر دوباره می‌شه
   useEffect(() => {
     let temp = [...ads];
 
@@ -41,7 +40,7 @@ const AdvertisementsPage = ({ ads }: Props) => {
   return (
     <div className="mt-4 px-4">
       {/* فیلترها */}
-      <div className="sticky top-0 z-10 mb-4 flex flex-wrap items-center gap-3 rounded-md bg-white p-3 shadow-md">
+      <div className="sticky top-18 z-10 mb-4 flex flex-wrap items-center gap-3 rounded-md bg-white p-3 shadow-md">
         <select
           className="rounded border px-2 py-1"
           value={category}

@@ -17,24 +17,30 @@ type InputProps = {
     }>
   >;
   alert: string;
+  disabled?: boolean;
 };
 const SetProvinces = ({
   setData,
   setProvince,
   province,
   alert,
+  disabled = true,
 }: InputProps) => {
   useEffect(() => {}, []);
   const [modal, setModal] = useState<boolean>(false);
+  console.log(disabled);
+
   return (
     <>
       <Bg_Modal modal={modal} setModal={setModal} />
 
       <div
-        onClick={() => setModal(true)}
-        className=" relative flex h-12 w-1/2 items-center justify-between rounded-[10px] border border-gray-300 bg-white px-5 outline-gray-300"
+        onClick={() => {
+          !disabled && setModal(true);
+        }}
+        className={`${disabled && `!bg-gray-200`} bg-wite relative flex h-12 w-1/2 items-center justify-between rounded-[10px] border border-gray-300 px-5 !text-gray-500 outline-gray-300`}
       >
-        {province ? <p className="line-clamp-1">{province}</p> : <p>استان</p>}
+        {province ? <p className="line-clamp-1">{province}</p> : <p className="!text-black">استان</p>}
         {modal ? <IoIosArrowUp /> : <IoIosArrowDown />}
         {alert && (
           <div
@@ -46,7 +52,7 @@ const SetProvinces = ({
         )}
       </div>
 
-      {modal && (
+      {modal && !disabled && (
         <div className="px- child:bg-white fixed top-0 right-0 bottom-0 left-0 z-20 mx-auto my-auto h-fit w-[calc(100%-30px)] gap-2 overflow-hidden rounded-3xl border border-gray-300 bg-white py-1 md:right-0 md:left-0 md:w-[500px]">
           <div
             className="absolute top-0 right-0 left-0 z-30 mx-auto flex h-14 w-[calc(100%)] items-center justify-between gap-2 border-b bg-white px-4 py-2 font-semibold text-gray-500"

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { ConnectDB } from "@/utils/connectDB";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
-import { AdvertisementType } from "@/types/dataType.type";
+import { AdvertisementType, UserType } from "@/types/dataType.type";
 import Advertisement from "@/models/Advertisement.model";
 import User from "@/models/user.model";
 import mongoose from "mongoose";
@@ -37,7 +37,9 @@ export async function POST(req: Request) {
       );
     }
 
-    const user = await User.findOne({ email: session?.user?.email });
+    const user: UserType | null = await User.findOne({
+      email: session?.user?.email,
+    });
     if (!user) {
       return NextResponse.json(
         { success: false, error: "اکانتی با این ایمیل یافت نشد" },
@@ -112,7 +114,9 @@ export async function PATCH(req: Request) {
       );
     }
 
-    const user = await User.findOne({ email: session?.user?.email });
+    const user: UserType | null = await User.findOne({
+      email: session?.user?.email,
+    });
     if (!user) {
       return NextResponse.json(
         { success: false, error: "اکانتی با این ایمیل یافت نشد" },
@@ -194,7 +198,8 @@ export async function PATCH(req: Request) {
 export async function GET() {
   try {
     await ConnectDB();
-    const ads = await Advertisement.find().select("-userID");
+
+    const ads = await Advertisement.find({ published: true }).select("-userID");
     return NextResponse.json({ success: true, data: ads }, { status: 200 });
   } catch (err: any) {
     return NextResponse.json(

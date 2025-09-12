@@ -30,10 +30,6 @@ const Card = ({ ad, count = false }: CardProps & { count?: boolean }) => {
     typeOf,
   } = ad;
 
-  const formattedDate = constructionDate
-    ? new Date(constructionDate).toLocaleDateString("fa-IR", DateOption)
-    : "-";
-
   const { mutate: mutateEditViewAd, isPending: isPendingEditViewAd } =
     useMutation({
       mutationKey: ["EditViewAd"],
@@ -49,7 +45,7 @@ const Card = ({ ad, count = false }: CardProps & { count?: boolean }) => {
 
   return (
     <Link
-      href=""
+      href={`/advertisement/${_id}`}
       onClick={() => {
         count && mutateEditViewAd(String(_id));
       }}
@@ -89,7 +85,9 @@ const Card = ({ ad, count = false }: CardProps & { count?: boolean }) => {
           {typeOf && <span className="text-xs md:text-sm">اجاره</span>}
           {typeOf && (
             <div className="flex items-center gap-2">
-              <p className="pt-1.5 font-medium text-gray-500">{sp(+price)} </p>
+              <p className="pt-1.5 font-medium text-gray-500">
+                {sp(String(rent))}
+              </p>
               <Image
                 src={toman}
                 alt="toman"

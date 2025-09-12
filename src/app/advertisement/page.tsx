@@ -5,14 +5,22 @@ import {
   ParamsAndSearchPramsType,
 } from "@/types/dataType.type";
 import { ConnectDB } from "@/utils/connectDB";
+export const metadata = {
+  title: " آگهی ها",
+  // description: "خرید و اجاره ملاک را باما تجربه کنید",
+};
 
-const page = async ({ params, searchParams={} }: ParamsAndSearchPramsType) => {
+const page = async ({
+  params,
+  searchParams = {},
+}: ParamsAndSearchPramsType) => {
   console.log(searchParams);
 
   await ConnectDB();
 
-  const advertisements: AdvertisementType[] =
-    (await Advertisement.find().lean()) as unknown as AdvertisementType[];
+  const advertisements: AdvertisementType[] = (await Advertisement.find({
+    published: true,
+  }).lean()) as unknown as AdvertisementType[];
 
   let data: AdvertisementType[] = advertisements;
 

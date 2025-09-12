@@ -1,5 +1,5 @@
 import axios from "axios";
-interface UploadGalleryResponse {
+export interface UploadGalleryResponse {
   success: boolean;
   urls?: string[];
   error?: string;

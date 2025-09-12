@@ -11,7 +11,8 @@ const LocationMarker: FC<{
   data: LatLngData | null;
   setData: (d: LatLngData | null) => void;
   mapRef: MutableRefObject<Map | null>;
-}> = ({ data, setData, mapRef }) => {
+  show?: boolean;
+}> = ({ data, setData, mapRef, show }) => {
   const [moving, setMoving] = useState<boolean>(false);
 
   useEffect(() => {
@@ -42,10 +43,10 @@ const LocationMarker: FC<{
       position={[+data.lat, +data.lng]}
       icon={ShopIcon}
       eventHandlers={{
-        click: () => setData(null), // پاک کردن مارکر وقتی روش کلیک شد
+        click: () => !show && setData(null),
       }}
     >
-      <Popup>موقعیت فروشگاه</Popup>
+      <Popup>موقعیت ملک</Popup>
     </Marker>
   ) : (
     <div className="pointer-events-none absolute top-[calc(45%)] left-1/2 z-[9999] -translate-x-1/2 -translate-y-1/2">

@@ -336,12 +336,14 @@ const AddAdPage = () => {
             setProvince={setProvince}
             province={data.province}
             alert={messages.province}
+            disabled={isPendingAddAd}
           />
           <SetCities
             setData={setData}
             province={province}
             city={data.city}
             alert={messages.city}
+            disabled={isPendingAddAd}
           />
         </div>
         <Input
@@ -378,6 +380,7 @@ const AddAdPage = () => {
               disabled={isPendingAddAd}
             />
             <UploadGallery
+              image={image?.url}
               gallery={gallery}
               setGallery={setGallery}
               disabled={isPendingAddAd}
