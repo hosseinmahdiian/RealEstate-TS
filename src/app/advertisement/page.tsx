@@ -7,7 +7,6 @@ import {
 import { ConnectDB } from "@/utils/connectDB";
 export const metadata = {
   title: " آگهی ها",
-  // description: "خرید و اجاره ملاک را باما تجربه کنید",
 };
 
 const page = async ({

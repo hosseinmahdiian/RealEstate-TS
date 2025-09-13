@@ -9,9 +9,14 @@ import { UserType } from "@/types/dataType.type";
 export default async function Home() {
   await ConnectDB();
   const session = await getServerSession(authOptions);
-  const findUser: UserType | null = await User.findOne({
-    email: session?.user?.email,
-  });
+  const findUser: Partial<UserType> | null = JSON.parse(
+    JSON.stringify(
+      await User.findOne({
+        email: session?.user?.email,
+      }),
+    ),
+  );
+  console.log(findUser);
 
   return (
     <div className="">
@@ -20,6 +25,8 @@ export default async function Home() {
         fullName={findUser?.fullName}
         email={findUser?.email}
         mobile={findUser?.mobile}
+        _id={findUser?._id}
+        profile={findUser?.profile}
         createdAt={new Date(findUser?.createdAt ?? "").toLocaleDateString(
           "fa-IR",
           DateOption,

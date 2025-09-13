@@ -1,8 +1,11 @@
 "use client";
 import Card from "@/module/Card";
-import { AdvertisementType } from "@/types/dataType.type";
+import { AdvertisementType, InputChangeEvent } from "@/types/dataType.type";
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import Input from "@/module/input";
+import { categoryFaMap } from "@/function/functions";
+import { CategoryEnum } from "@/enum/enums.enum";
 
 type Props = {
   ads: AdvertisementType[];
@@ -13,6 +16,9 @@ const AdvertisementsPage = ({ ads }: Props) => {
   const router = useRouter();
 
   const [filteredAds, setFilteredAds] = useState<AdvertisementType[]>(ads);
+  const [search, setSearch] = useState<string>("");
+  const [searchFilterAds, setSearchFilteredAds] =
+    useState<AdvertisementType[]>(filteredAds);
 
   const category = searchParams.get("category") || "all";
   const typeFilter = searchParams.get("type") || "all";
@@ -30,6 +36,10 @@ const AdvertisementsPage = ({ ads }: Props) => {
     setFilteredAds(temp);
   }, [ads, category, typeFilter, mostViewed]);
 
+  useEffect(() => {
+    setSearch("");
+    setSearchFilteredAds(filteredAds);
+  }, [filteredAds]);
   const updateSearchParam = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
     if (value === "all" || value === "") params.delete(key);
@@ -37,10 +47,33 @@ const AdvertisementsPage = ({ ads }: Props) => {
     router.replace(`/advertisement?${params.toString()}`);
   };
 
+  const searchHandler = (e: InputChangeEvent) => {
+    const value = e.target.value.toLowerCase();
+    setSearch(value);
+
+    const filtered = filteredAds?.filter((ad) =>
+      [ad.city, ad.address, ad.province, ad.realState, ad.title]
+        .filter(Boolean)
+        .some((field) => field?.toLowerCase().includes(value)),
+    );
+
+    setSearchFilteredAds(filtered);
+  };
+
   return (
     <div className="mt-4 px-4">
       {/* فیلترها */}
-      <div className="sticky top-18 z-10 mb-4 flex flex-wrap items-center gap-3 rounded-md bg-white p-3 shadow-md">
+      <div className="sticky top-18 z-10 mb-4 items-center grid grid-cols-3 md:grid-cols-6  gap-3 rounded-md bg-white p-3 shadow-md">
+        <div className="child:mt-0 col-span-full md:col-span-3">
+          <Input
+            placeholder="حستوجوی اسم , املاک ,منطقه ,  شهر و استان"
+            FN={(e) => {
+              searchHandler(e);
+            }}
+            name="search"
+            data={search}
+          />
+        </div>
         <select
           className="rounded border px-2 py-1"
           value={category}
@@ -78,8 +111,8 @@ const AdvertisementsPage = ({ ads }: Props) => {
 
       {/* گرید آگهی‌ها */}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-        {filteredAds.length > 0 ? (
-          filteredAds.map((ad, index) => (
+        {searchFilterAds.length > 0 ? (
+          searchFilterAds.map((ad, index) => (
             <Card ad={ad} key={index} count={true} />
           ))
         ) : (

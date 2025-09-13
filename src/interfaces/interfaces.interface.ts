@@ -16,7 +16,7 @@ export interface ResponseInterface {
   success: boolean;
   message?: string;
   error?: string;
-  data?: object;
+  data?: any;
 }
 
 export interface CardProps {

@@ -7,8 +7,15 @@ import NextAuthProvider from "@/provider/NextAuthProvider.provider";
 import ReactQueryProvider from "@/provider/ReqctQuery.provider";
 
 export const metadata = {
-  title: "پروژه املاک ",
-  description: "خرید و اجاره ملاک را باما تجربه کنید",
+  title: "پروژه املاک",
+  description: "خرید و اجاره ملک را با ما تجربه کنید",
+  themeColor: "#000000",
+  icons: [
+    {
+      rel: "icon",
+      url: "/icons/icon-192x192.png",
+    },
+  ],
 };
 
 export default function RootLayout({ children }: ChildrenType) {

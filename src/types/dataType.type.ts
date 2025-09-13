@@ -18,7 +18,7 @@ export type UserType = LogInType & {
   mobile?: string;
   profile?: string;
   role?: string;
-  createdAt?: Date;
+  createdAt?: Date | string;
   _id?: string;
 };
 export type IImage = {

@@ -1,18 +1,20 @@
-"use client";
-import { signOut, useSession } from "next-auth/react";
-import Link from "next/link";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import LogOutButton from "../module/LogOutButton";
-import { usePathname } from "next/navigation";
-const links = [
-  { href: "/dashboard", label: "حساب کاربری" },
-  { href: "/dashboard/myAd", label: "آگهی های من" },
-  { href: "/dashboard/addAd", label: "ثبت آگهی" },
-];
-const SideBarProfile = ({ role }: { role?: string }) => {
-  const { data: session } = useSession();
-  const { fullName, email, profile } = session?.user ?? {};
-  const pathname = usePathname();
+import { ConnectDB } from "@/utils/connectDB";
+import { authOptions } from "@/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
+import User from "@/models/user.model";
+import { UserType } from "@/types/dataType.type";
+import SideBarItem from "@/module/SideBarItem";
+
+const SideBarProfile = async ({ role }: { role?: string }) => {
+  await ConnectDB();
+  const session = await getServerSession(authOptions);
+  const findUser: Partial<UserType> | null = await User.findOne({
+    email: session?.user?.email,
+  });
+  const { fullName, email, profile } = findUser ?? {};
+  console.log(profile);
 
   return (
     <div className="h-fit w-full rounded-xl bg-blue-200 py-5 shadow shadow-blue-300">
@@ -39,29 +41,8 @@ const SideBarProfile = ({ role }: { role?: string }) => {
       </div>
 
       <hr className="mx-auto my-2 w-[calc(100%-20px)] border-gray-500" />
-      <div className="mr-2 flex flex-wrap items-center justify-around gap-2 md:mr-0 md:flex-col">
-        {links.map(({ href, label }) => (
-          <Link
-            key={href}
-            href={href}
-            className={`text-gray-500 ${
-              pathname === href ? "!text-black" : ""
-            }`}
-          >
-            {label}
-          </Link>
-        ))}
-        {role == "ADMIN" && (
-          <Link
-            href="/admin"
-            className={`text-gray-500 ${
-              pathname === "/admin" ? "!text-black" : ""
-            }`}
-          >
-            پنل ادمین
-          </Link>
-        )}
-      </div>
+      <SideBarItem role={JSON.parse(JSON.stringify(role))} />
+
       <hr className="mx-auto my-2 w-[calc(100%-20px)] border-gray-500" />
       <LogOutButton />
     </div>

@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 
 const DashboardCard = ({ ad }: CardProps) => {
   const router = useRouter();
-  const { _id } = ad;
+  const { _id, published } = ad;
   const { mutate: mutateEditDeleteAd, isPending: isPendingEditDeleteAd } =
     useMutation({
       mutationKey: ["DeleteAd"],
@@ -30,7 +30,14 @@ const DashboardCard = ({ ad }: CardProps) => {
     });
 
   return (
-    <div className="rounded-2xl border border-blue-400 p-2 shadow-lg transition-all ease-in-out hover:scale-102">
+    <div className="rounded-2xl border border-blue-400 p-2 shadow-lg transition-all ease-in-out hover:scale-102 relative">
+      <div className="absolute top-5 right-3 z-10 text-xs ">
+        {published ? (
+          <p className="text-green-300 bg-green-50 border border-green-300 px-3 rounded-xl">منتشر شده</p>
+        ) : (
+          <p className="text-orange-300 bg-orange-50 rounded-xl px-3 border border-orange-300"> در انتظار تایید</p>
+        )}
+      </div>
       <Card ad={ad} />
       <div className="child:w-1/2 child:text-center child:border child:rounded-lg mt-2 flex items-center gap-2">
         <Link

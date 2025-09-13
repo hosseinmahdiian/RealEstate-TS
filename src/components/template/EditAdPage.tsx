@@ -253,7 +253,7 @@ const EditAdPage = ({ ad }: AD) => {
 
     !accept && toast.error("موارد زیر را بررسی کنید");
     accept && console.log("اطلاعات فرم:", result);
-    accept && mutateEditAd(result);
+    accept && mutateEditAd({ ...result, published: false });
 
     return result;
   }

@@ -39,6 +39,7 @@ export const authOptions: NextAuthOptions = {
           id: existUser._id.toString(),
           email: existUser.email,
           fullName: existUser.fullName,
+          profile: existUser.profile,
         };
       },
     }),
@@ -48,6 +49,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.fullName = user.fullName;
+        token.profile = user.profile;
       }
       return token;
     },
@@ -55,6 +57,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.fullName = token.fullName as string;
+        session.user.profile = token.profile as string;
       }
       return session;
     },

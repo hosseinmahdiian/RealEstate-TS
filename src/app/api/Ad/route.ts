@@ -102,6 +102,7 @@ export async function PATCH(req: Request) {
     province,
     typeOf,
     view,
+    published,
   } = body;
 
   try {
@@ -172,6 +173,7 @@ export async function PATCH(req: Request) {
         province,
         typeOf,
         view,
+        published,
       },
       { new: true, runValidators: true },
     );
