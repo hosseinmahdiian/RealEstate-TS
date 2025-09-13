@@ -1,3 +1,4 @@
+// "use client";
 import "./globals.css";
 import { ChildrenType } from "src/types/dataType.type";
 import { YekanBakh } from "@/utils/fonts";
@@ -5,6 +6,8 @@ import Layout from "@/layout/Layout";
 import { Toaster } from "react-hot-toast";
 import NextAuthProvider from "@/provider/NextAuthProvider.provider";
 import ReactQueryProvider from "@/provider/ReqctQuery.provider";
+import ClientWrapper from "@/provider/ClientWrapper";
+// import { useEffect } from "react";
 
 export const metadata = {
   title: "پروژه املاک",
@@ -25,11 +28,18 @@ export default function RootLayout({ children }: ChildrenType) {
       dir="rtl"
       className={`${YekanBakh.variable} !font-YekanBakh h-full`}
     >
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/favicon.ico" />
+        <meta name="theme-color" content="#0d6efd" />
+      </head>
       <body className="relative container mx-auto h-full max-w-7xl px-2">
         <Toaster position="top-center" />
         <NextAuthProvider>
           <ReactQueryProvider>
-            <Layout>{children}</Layout>
+            <ClientWrapper>
+              <Layout>{children}</Layout>
+            </ClientWrapper>
           </ReactQueryProvider>
         </NextAuthProvider>
       </body>
