@@ -13,6 +13,7 @@ import { EditUserAPI } from "@/services/EditUser.api";
 import { UserType } from "@/types/dataType.type";
 import { useRouter } from "next/navigation";
 import Bg_Modal from "@/module/BgModal";
+import { useSession } from "next-auth/react";
 
 const reset: Partial<UserType> = {
   fullName: "",
@@ -37,8 +38,7 @@ const DashboardPage = ({
     mobile: mobile || "",
     profile: profile || "",
   });
-  console.log(profile?.slice(14));
-
+  const { data: session, update } = useSession();
   const [messages, setMessages] = useState<Partial<UserType>>(reset);
   const [image, setImage] = useState<{ url: string; id: string } | null>({
     url: String(profile),
@@ -58,7 +58,7 @@ const DashboardPage = ({
   } = useMutation({
     mutationKey: ["EditUser"],
     mutationFn: EditUserAPI,
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (data?.success) {
         console.log(data?.data);
         setForm({
@@ -73,6 +73,15 @@ const DashboardPage = ({
         setImage({
           url: String(data?.data?.profile),
           id: String(data?.data?.profile?.slice(14)),
+        });
+        await update({
+          user: {
+            ...session?.user,
+            fullName: data?.data?.fullName || "",
+            email: data?.data?.email || "",
+            mobile: data?.data?.mobile || "",
+            profile: data?.data?.profile || "",
+          },
         });
       }
     },

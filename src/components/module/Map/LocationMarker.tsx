@@ -5,7 +5,7 @@ import { ShopIcon } from "./MapIcons";
 import { LeafletMouseEvent, Map } from "leaflet";
 import { LatLngData } from "@/interface/interfaces.interface";
 import Image from "next/image";
-import location from "public/images/location.png";
+import location from "public/icons/location.png";
 
 const LocationMarker: FC<{
   data: LatLngData | null;

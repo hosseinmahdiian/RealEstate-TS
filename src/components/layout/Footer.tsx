@@ -1,7 +1,7 @@
 
 const Footer = () => {
   return (
-   <div className="absolute -bottom-12 w-full inset-x-0   rounded-2xl bg-blue-500 px-6 py-4 text-white shadow-lg md:flex md:items-center md:justify-between">
+   <div className="absolute -bottom-40 w-full inset-x-0   rounded-2xl bg-blue-500 px-6 py-4 text-white shadow-lg md:flex md:items-center md:justify-between">
   {/* متن معرفی */}
   <div className="text-center md:text-right">
     <h3 className="text-xl font-bold">سامانه خرید و اجاره ملک</h3>

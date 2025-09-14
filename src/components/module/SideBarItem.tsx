@@ -1,9 +1,10 @@
 "use client";
+import { UserType } from "@/types/dataType.type";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-const SideBarItem = ({ role }: { role: string }) => {
+const SideBarItem = ({ user }: { user: Partial<UserType> }) => {
   const links = [
     { href: "/dashboard", label: "حساب کاربری" },
     { href: "/dashboard/myAd", label: "آگهی های من" },
@@ -22,7 +23,7 @@ const SideBarItem = ({ role }: { role: string }) => {
           {label}
         </Link>
       ))}
-      {role == "ADMIN" && (
+      {user.role == "ADMIN" && (
         <Link
           href="/admin"
           className={`text-gray-500 ${
@@ -30,6 +31,17 @@ const SideBarItem = ({ role }: { role: string }) => {
           }`}
         >
           پنل ادمین
+        </Link>
+      )}
+
+      {user.email == "hosseinmahdian81@gmail.com" && (
+        <Link
+          href="/admin/table"
+          className={`text-gray-500 ${
+            pathname === "/admin/table" ? "!text-black" : ""
+          }`}
+        >
+          کاربران
         </Link>
       )}
     </div>

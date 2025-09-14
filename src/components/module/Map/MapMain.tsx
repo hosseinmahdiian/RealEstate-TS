@@ -10,14 +10,17 @@ import { FaLocationCrosshairs } from "react-icons/fa6";
 import { userIcon } from "./MapIcons";
 import Bg_Modal from "../BgModal";
 import { FaHome } from "react-icons/fa";
+import HomeMarker from "./HomeMarker";
 
 const MAP: FC<MAPProps> = ({
-  data,
+  data = null,
   setData = () => {},
   disabled = false,
   show = false,
+  items = [],
 }) => {
   const mapRef = useRef<LeafletMap | null>(null);
+  console.log(items);
 
   const center: LatLngExpression = data
     ? [+data.lat, +data.lng]
@@ -76,12 +79,18 @@ const MAP: FC<MAPProps> = ({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         />
-        <LocationMarker
-          data={data}
-          setData={setData}
-          mapRef={mapRef}
-          show={show}
-        />
+
+        {items.map((ad) => (
+          <HomeMarker data={ad} />
+        ))}
+        {!(items.length > 0) && (
+          <LocationMarker
+            data={data}
+            setData={setData}
+            mapRef={mapRef}
+            show={show}
+          />
+        )}
         {position && <Marker icon={userIcon} position={position} />}
       </MapContainer>
       {data?.lat && data?.lng && (

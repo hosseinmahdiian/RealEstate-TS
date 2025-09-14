@@ -6,10 +6,11 @@ export interface LatLngData {
 }
 
 export interface MAPProps {
-  data: LatLngData | null;
+  data?: LatLngData | null;
   setData?: (loc: LatLngData | null) => void;
   disabled?: boolean;
   show?: boolean;
+  items?: AdvertisementType[];
 }
 
 export interface ResponseInterface {

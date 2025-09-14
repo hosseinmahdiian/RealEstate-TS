@@ -16,6 +16,8 @@ import toast from "react-hot-toast";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { FaArrowAltCircleRight } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa6";
 
 const DetailAd = ({ ad }: { ad: AdvertisementType }) => {
   const router = useRouter();
@@ -56,9 +58,9 @@ const DetailAd = ({ ad }: { ad: AdvertisementType }) => {
       <div className="flex items-center justify-between">
         <button
           onClick={() => router.back()}
-          className="rounded-lg bg-gray-100 px-4 py-2 text-sm text-gray-600 shadow hover:bg-gray-200"
+          className="flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 text-sm text-gray-600 shadow hover:bg-gray-200"
         >
-          ← بازگشت
+          <FaArrowRight /> بازگشت
         </button>
         <h1 className="text-2xl font-bold md:text-3xl">{title}</h1>
       </div>

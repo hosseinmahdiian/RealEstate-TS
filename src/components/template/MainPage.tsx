@@ -1,18 +1,25 @@
 import { CategoryEnum } from "@/enum/enums.enum";
 import Advertisement from "@/models/Advertisement.model";
 import Items from "@/module/Items";
+import MAP from "@/module/Map/MapMain";
 import { ConnectDB } from "@/utils/connectDB";
 import React from "react";
 
 const MainPage = async () => {
   await ConnectDB();
-  const allAd = await Advertisement.find({ published: true }).select(
-    "-userID",
-  );
+  const allAd = await Advertisement.find({ published: true }).select("-userID");
 
   return (
     <div className="mt-8">
-      {/* <Items title="همه" url="/all" query={JSON.parse(JSON.stringify(allAd))} /> */}
+      <div className="items-center justify-between md:flex">
+        <h2 className="text-center text-3xl text-blue-500">
+          نمایش موقیت ملک ها در نقشه{" "}
+        </h2>
+        <div className="aspect-square w-full md:w-3/5">
+          <MAP items={allAd} />
+        </div>
+      </div>
+
       <Items
         title="پربازدیدترین"
         url="/advertisement?mostViewed=true"
@@ -20,7 +27,8 @@ const MainPage = async () => {
           JSON.stringify(allAd.sort((a, b) => b.view - a.view)),
         )}
       />
-      <Items
+      
+      {/* <Items
         title="رهن و اجاره"
         url="/advertisement?type=rent"
         query={JSON.parse(JSON.stringify(allAd?.filter((i) => i.typeOf)))}
@@ -34,9 +42,9 @@ const MainPage = async () => {
         title=" خرید و فروش"
         url="/advertisement?mostViewed=true"
         query={JSON.parse(JSON.stringify(allAd?.filter((i) => !i.typeOf)))}
-      />
+      /> */}
 
-      <Items
+      {/* <Items
         title=" دسته ویلا "
         url="/advertisement?category=villa"
         query={JSON.parse(
@@ -71,7 +79,7 @@ const MainPage = async () => {
             allAd?.filter((i) => i.category == CategoryEnum.Office),
           ),
         )}
-      />
+      /> */}
     </div>
   );
 };

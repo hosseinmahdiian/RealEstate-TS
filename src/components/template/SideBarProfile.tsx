@@ -41,7 +41,7 @@ const SideBarProfile = async ({ role }: { role?: string }) => {
       </div>
 
       <hr className="mx-auto my-2 w-[calc(100%-20px)] border-gray-500" />
-      <SideBarItem role={JSON.parse(JSON.stringify(role))} />
+      <SideBarItem user={JSON.parse(JSON.stringify(findUser))} />
 
       <hr className="mx-auto my-2 w-[calc(100%-20px)] border-gray-500" />
       <LogOutButton />
