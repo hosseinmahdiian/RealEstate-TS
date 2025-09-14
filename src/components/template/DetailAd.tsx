@@ -18,6 +18,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa6";
+import CopyLinkButton from "@/module/CopyLinkButton";
 
 const DetailAd = ({ ad }: { ad: AdvertisementType }) => {
   const router = useRouter();
@@ -57,7 +58,10 @@ const DetailAd = ({ ad }: { ad: AdvertisementType }) => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <button
-          onClick={() => router.back()}
+          onClick={() => {
+            router.back();
+            router.refresh();
+          }}
           className="flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 text-sm text-gray-600 shadow hover:bg-gray-200"
         >
           <FaArrowRight /> بازگشت
@@ -181,15 +185,7 @@ const DetailAd = ({ ad }: { ad: AdvertisementType }) => {
           </a>
         )}
 
-        {/* <button
-          onClick={() => {
-            navigator.clipboard.writeText(window.location.href);
-            toast.success("لینک آگهی کپی شد!");
-          }}
-          className="inline-block rounded-lg bg-gray-100 px-6 py-2 text-sm font-semibold text-gray-700 shadow hover:bg-gray-200"
-        >
-          📋 کپی لینک آگهی
-        </button> */}
+        <CopyLinkButton />
       </div>
     </div>
   );

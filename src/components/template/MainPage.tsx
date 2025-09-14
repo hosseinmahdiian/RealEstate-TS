@@ -2,10 +2,13 @@ import { CategoryEnum } from "@/enum/enums.enum";
 import Advertisement from "@/models/Advertisement.model";
 import Items from "@/module/Items";
 import MAP from "@/module/Map/MapMain";
+import MapWrapper from "@/provider/WrapperMap";
 import { ConnectDB } from "@/utils/connectDB";
 import React from "react";
 
 const MainPage = async () => {
+  // const { data } = useSession();
+  // console.log(data);
   await ConnectDB();
   const allAd = await Advertisement.find({ published: true }).select("-userID");
 
@@ -15,9 +18,11 @@ const MainPage = async () => {
         <h2 className="text-center text-3xl text-blue-500">
           نمایش موقیت ملک ها در نقشه{" "}
         </h2>
-        <div className="aspect-square w-full md:w-3/5">
-          <MAP items={allAd} />
-        </div>
+        {allAd && (
+          <div className="aspect-square w-full md:w-3/5">
+            <MapWrapper items={allAd} />
+          </div>
+        )}
       </div>
 
       <Items
@@ -27,7 +32,7 @@ const MainPage = async () => {
           JSON.stringify(allAd.sort((a, b) => b.view - a.view)),
         )}
       />
-      
+
       {/* <Items
         title="رهن و اجاره"
         url="/advertisement?type=rent"

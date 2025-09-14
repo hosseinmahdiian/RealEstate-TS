@@ -4,6 +4,9 @@ import { homeIcon } from "./MapIcons";
 
 import { AdvertisementType } from "@/types/dataType.type";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { EditViewAdAPI } from "@/services/EditViewAd.api";
+import { ResponseInterface } from "@/interface/interfaces.interface";
 
 const HomeMarker = ({ data }: { data: AdvertisementType }) => {
   const router = useRouter();
@@ -11,13 +14,27 @@ const HomeMarker = ({ data }: { data: AdvertisementType }) => {
   console.log(data);
 
   if (!location?.lat || !location?.lng) return null;
-
+  const { mutate: mutateEditViewAd, isPending: isPendingEditViewAd } =
+    useMutation({
+      mutationKey: ["EditViewAd"],
+      mutationFn: EditViewAdAPI,
+      onSuccess: (data: ResponseInterface) => {
+        if (data?.success) {
+          console.log(data.message || "ویرایش شد");
+        } else {
+          console.log(data.error || "خطایی رخ داده است");
+        }
+      },
+    });
   return (
     <Marker
       position={[+location?.lat, +location?.lng]}
       icon={homeIcon}
       eventHandlers={{
-        click: () => router.push(`/advertisement/${_id}`),
+        click: () => {
+          router.push(`/advertisement/${_id}`);
+          mutateEditViewAd(String(_id))
+        },
         mouseover: (e) => {
           e.target.openPopup();
         },

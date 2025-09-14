@@ -81,7 +81,7 @@ const MAP: FC<MAPProps> = ({
         />
 
         {items.map((ad) => (
-          <HomeMarker data={ad} />
+          <HomeMarker data={ad} key={ad._id} />
         ))}
         {!(items.length > 0) && (
           <LocationMarker
