@@ -181,7 +181,7 @@ const DetailAd = ({ ad }: { ad: AdvertisementType }) => {
           </a>
         )}
 
-        <button
+        {/* <button
           onClick={() => {
             navigator.clipboard.writeText(window.location.href);
             toast.success("لینک آگهی کپی شد!");
@@ -189,7 +189,7 @@ const DetailAd = ({ ad }: { ad: AdvertisementType }) => {
           className="inline-block rounded-lg bg-gray-100 px-6 py-2 text-sm font-semibold text-gray-700 shadow hover:bg-gray-200"
         >
           📋 کپی لینک آگهی
-        </button>
+        </button> */}
       </div>
     </div>
   );
