@@ -41,7 +41,7 @@ const Input: FC<InputProps> = ({
     >
       <label
         htmlFor={name}
-        className={`absolute start-1 -top-6 !h-fit rounded-2xl px-2 text-sm text-gray-500 transition-all ease-linear`}
+        className={`absolute start-1 -top-6 !h-fit rounded-2xl px-2 text-sm text transition-all ease-linear`}
       >
         {title}
       </label>
@@ -50,7 +50,7 @@ const Input: FC<InputProps> = ({
           disabled
             ? "cursor-not-allowed bg-gray-200 text-gray-600"
             : "text-gray-500"
-        } peer h-full w-full rounded-[14px] border border-gray-300 px-5 placeholder-gray-400 outline-gray-300 focus:placeholder-transparent`}
+        } peer h-full w-full rounded-[14px] border border-gray-300 bg-gray-100 px-5 placeholder-gray-400 outline-gray-300 focus:placeholder-transparent dark:bg-gray-100 placeholder`}
         id={name}
         name={name}
         disabled={disabled}

@@ -1,5 +1,9 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import { BeatLoader } from "react-spinners";
+import { useTheme } from "next-themes";
+
 type ButtonProps = {
   FN?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
@@ -8,6 +12,7 @@ type ButtonProps = {
   isLoading?: boolean;
   type?: "button" | "reset" | "submit";
 };
+
 const Button: React.FC<ButtonProps> = ({
   FN = () => {},
   disabled = false,
@@ -16,15 +21,22 @@ const Button: React.FC<ButtonProps> = ({
   style = "",
   type = "button",
 }) => {
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null; // قبل از mount چیزی render نشه
+
   return (
     <button
       type={type}
       disabled={disabled || isLoading}
       onClick={FN}
       className={`${
-        !isLoading && !disabled
-          ? "bg-blue-500 text-white"
-          : "cursor-not-allowed bg-gray-200 text-gray-600"
+        !isLoading && !disabled ? "button-Active" : "button-DiActive"
       } mt-6 block h-12 w-full rounded-[14px] ${style}`}
     >
       {isLoading ? (
@@ -35,4 +47,5 @@ const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
+
 export default Button;

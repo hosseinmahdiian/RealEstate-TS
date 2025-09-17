@@ -26,9 +26,9 @@ const FullModal: React.FC<FullModalProps> = ({
       <Bg_Modal modal={modal} setModal={setModal} />
 
       {modal && (
-        <div className="fixed top-0 right-0 bottom-0 left-0 z-20 mx-auto my-auto h-fit w-[calc(100%-30px)] overflow-hidden rounded-3xl border border-gray-300 bg-white pt-1.5 md:w-[500px]">
+        <div className="fixed top-0 right-0 bottom-0 left-0 z-20 mx-auto my-auto h-fit w-[calc(100%-30px)] overflow-hidden rounded-3xl border border-gray-300 custom-bg-modal pt-1.5 md:w-[500px]">
           <div
-            className="absolute top-0 right-0 left-0 z-30 mx-auto flex h-14 w-full items-center justify-between gap-2 border-b border-gray-300 bg-white px-4 py-2 font-semibold text-gray-500"
+            className="absolute top-0 right-0 left-0 z-30 mx-auto flex h-14 w-full items-center justify-between gap-2 border-b border-gray-300 custom-bg-modal px-4 py-2 font-semibold text-gray-500"
             onClick={() => setModal(false)}
           >
             <div className="flex items-center gap-4">
@@ -39,7 +39,7 @@ const FullModal: React.FC<FullModalProps> = ({
           </div>
 
           <div
-            className={` relative mt-12 block text-leftright-0  max-h-[calc(100vh-150px)] w-full overflow-y-scroll rounded-md bg-white md:max-h-[550px] ${style} `}
+            className={` relative mt-12 block text-leftright-0  max-h-[calc(100vh-150px)] w-full overflow-y-scroll rounded-md  bg-gray-100 dark:bg-white custom-bg-modal md:max-h-[550px] ${style} `}
           >
             {children}
 
@@ -48,7 +48,7 @@ const FullModal: React.FC<FullModalProps> = ({
                 onClick={() => FN(i)}
                 className={`${
                   i?.disabled
-                    ? "!bg-gray-50 text-gray-600"
+                    ? "text"
                     : "font-bold text-gray-700 hover:bg-gray-200"
                 } block border-b border-gray-300 px-4 py-1 text-right `}
                 key={index}

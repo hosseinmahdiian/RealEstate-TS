@@ -63,7 +63,7 @@ const AdvertisementsPage = ({ ads }: Props) => {
   return (
     <div className="mt-4 px-4">
       {/* فیلترها */}
-      <div className="sticky top-18 z-10 mb-4 items-center grid grid-cols-3 md:grid-cols-6  gap-3 rounded-md bg-white p-3 shadow-md">
+      <div className="custom-bg sticky top-15 z-10 mb-4 grid grid-cols-3 items-center gap-3 p-3  md:grid-cols-6 ">
         <div className="child:mt-0 col-span-full md:col-span-3">
           <Input
             placeholder="حستوجوی اسم , املاک ,منطقه ,  شهر و استان"

@@ -38,7 +38,7 @@ const Calender = ({
           !disabled && setModal(true);
         }}
       >
-        <p className="start-1 -top-3 bg-white px-2 text-sm text-gray-500">
+        <p className="start-1 -top-3 px-2 text-sm ">
           تاریخ ساخت
         </p>
 

@@ -18,7 +18,7 @@ const SideBarItem = ({ user }: { user: Partial<UserType> }) => {
         <Link
           key={href}
           href={href}
-          className={`text-gray-500 ${pathname === href ? "!text-black" : ""}`}
+          className={`text-gray-400 dark:text-gray-100 ${pathname === href ? "!text-black dark:!text-gray-800" : ""}`}
         >
           {label}
         </Link>
@@ -26,8 +26,8 @@ const SideBarItem = ({ user }: { user: Partial<UserType> }) => {
       {user.role == "ADMIN" && (
         <Link
           href="/admin"
-          className={`text-gray-500 ${
-            pathname === "/admin" ? "!text-black" : ""
+          className={`text-gray-400 dark:text-gray-100 ${
+            pathname === "/admin" ? "!text-black dark:!text-gray-800" : ""
           }`}
         >
           پنل ادمین
@@ -37,8 +37,8 @@ const SideBarItem = ({ user }: { user: Partial<UserType> }) => {
       {user.email == "hosseinmahdian81@gmail.com" && (
         <Link
           href="/admin/table"
-          className={`text-gray-500 ${
-            pathname === "/admin/table" ? "!text-black" : ""
+          className={`text-gray-400 dark:text-gray-100 ${
+            pathname === "/admin/table" ? "!text-black dark:!text-gray-800" : ""
           }`}
         >
           کاربران

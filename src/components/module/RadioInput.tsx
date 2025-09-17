@@ -21,7 +21,7 @@ const RadioInput = ({
 }: InputProps) => {
   return (
     <label htmlFor={id} className={`flex cursor-pointer items-center gap-2`}>
-      <span className="text-gray-700">{title}</span>
+      <span className="text">{title}</span>
       <input
         id={id}
         name={name}

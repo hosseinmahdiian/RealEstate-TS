@@ -11,6 +11,7 @@ import { userIcon } from "./MapIcons";
 import Bg_Modal from "../BgModal";
 import { FaHome } from "react-icons/fa";
 import HomeMarker from "./HomeMarker";
+import { useTheme } from "next-themes";
 
 const MAP: FC<MAPProps> = ({
   data = null,
@@ -21,6 +22,7 @@ const MAP: FC<MAPProps> = ({
 }) => {
   const mapRef = useRef<LeafletMap | null>(null);
   console.log(items);
+  const { theme } = useTheme();
 
   const center: LatLngExpression = data
     ? [+data.lat, +data.lng]
@@ -64,6 +66,11 @@ const MAP: FC<MAPProps> = ({
         ref={mapRef}
       >
         <TileLayer
+          url={
+            theme == "dark"
+              ? "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          }
           // url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
           // url="https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
           // url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
@@ -76,7 +83,7 @@ const MAP: FC<MAPProps> = ({
           // url=" https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png"
           // url="https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png"
           // url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         />
 
@@ -98,14 +105,14 @@ const MAP: FC<MAPProps> = ({
           className="leaflet-map-pane absolute right-4 bottom-14 !z-[2000] flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white shadow"
           onClick={locatePlace}
         >
-          <FaHome className="text-xl" />
+          <FaHome className="text-xl text" />
         </span>
       )}
       <span
         className="leaflet-map-pane absolute right-4 bottom-5 !z-[2000] flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white shadow"
         onClick={locateUser}
       >
-        <FaLocationCrosshairs className="text-xl" />
+        <FaLocationCrosshairs className="text-xl text" />
       </span>
     </div>
   );

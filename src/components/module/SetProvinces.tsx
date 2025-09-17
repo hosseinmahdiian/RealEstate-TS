@@ -38,7 +38,8 @@ const SetProvinces = ({
         onClick={() => {
           !disabled && setModal(true);
         }}
-        className={`${disabled && `!bg-gray-200`} bg-wite relative flex h-12 w-1/2 items-center justify-between rounded-[10px] border border-gray-300 px-5 !text-gray-500 outline-gray-300`}
+        className={`${disabled && `!bg-gray-200`} bg-wite relative flex h-12 w-1/2 items-center justify-between rounded-[10px] border border-gray-300 px-5 !text-gray-500 outline-gray-300 bg-gray-100 dark:bg-white
+        `}
       >
         {province ? <p className="line-clamp-1">{province}</p> : <p className="!text-black">استان</p>}
         {modal ? <IoIosArrowUp /> : <IoIosArrowDown />}

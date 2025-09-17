@@ -6,14 +6,13 @@ import { onChengFormHandel } from "@/function/functions";
 import UploadImage from "@/module/UploadImage";
 import Button from "@/module/button";
 import toast from "react-hot-toast";
-import { emailRegex } from "@/utils/Regex";
 import { useMutation } from "@tanstack/react-query";
-import { EditAdAPI } from "@/services/EditAd.api";
 import { EditUserAPI } from "@/services/EditUser.api";
 import { UserType } from "@/types/dataType.type";
 import { useRouter } from "next/navigation";
 import Bg_Modal from "@/module/BgModal";
 import { useSession } from "next-auth/react";
+import { HiOutlineUserCircle } from "react-icons/hi";
 
 const reset: Partial<UserType> = {
   fullName: "",
@@ -21,6 +20,7 @@ const reset: Partial<UserType> = {
   mobile: "",
   profile: "",
 };
+
 const DashboardPage = ({
   mobile,
   email,
@@ -44,6 +44,7 @@ const DashboardPage = ({
     url: String(profile),
     id: String(profile?.slice(14)),
   });
+
   useEffect(() => {
     setForm((prev) => ({
       ...prev,
@@ -51,16 +52,11 @@ const DashboardPage = ({
     }));
   }, [image]);
 
-  const {
-    mutate: mutateEditUser,
-    isPending: isPendingEditUser,
-    data: dataEditUser,
-  } = useMutation({
+  const { mutate: mutateEditUser, isPending: isPendingEditUser } = useMutation({
     mutationKey: ["EditUser"],
     mutationFn: EditUserAPI,
     onSuccess: async (data) => {
       if (data?.success) {
-        console.log(data?.data);
         setForm({
           fullName: data?.data?.fullName || "",
           email: data?.data?.email || "",
@@ -85,7 +81,7 @@ const DashboardPage = ({
         });
       }
     },
-    onError: (error) => {
+    onError: (error: any) => {
       toast.error(error.message || "خطایی رخ داده است");
     },
   });
@@ -95,8 +91,6 @@ const DashboardPage = ({
     formData: FormData,
   ) {
     let accept = true;
-    console.log("////");
-
     setMessages(reset);
 
     if (form?.mobile && form.mobile.length != 11) {
@@ -116,9 +110,7 @@ const DashboardPage = ({
     }
 
     const result: Partial<UserType> = { ...form, _id };
-
     !accept && toast.error("موارد زیر را بررسی کنید");
-    accept && console.log("اطلاعات فرم:", result);
     accept && mutateEditUser(result);
 
     return result;
@@ -130,19 +122,18 @@ const DashboardPage = ({
   );
 
   return (
-    <div className="w-full">
-      <div className="space-y-4 text-gray-700">
-        {/* {form.profile && (
-          <div className="flex justify-center">
-            <Image
-              src={form.profile}
-              alt="Profile"
-              width={100}
-              height={100}
-              className="rounded-full border"
-            />
-          </div>
-        )} */}
+    <div className="mx-auto max-w-3xl space-y-6 p-4 text-gray-800 dark:text-gray-200">
+      {/* Profile Info */}
+      <div className="space-y-2 rounded-xl bg-blue-50 p-6 shadow-md dark:bg-blue-900">
+        {profile ? (
+          <img
+            src={profile}
+            alt="Profile"
+            className="h-16 w-16 rounded-full border-2 border-white object-cover dark:border-blue-400"
+          />
+        ) : (
+          <HiOutlineUserCircle className="h-16 w-16 rounded-full border-2 border-white bg-gray-200 p-1.5 text-gray-400 dark:border-blue-400 dark:bg-blue-800 dark:text-blue-300" />
+        )}
         <p>
           <span className="font-semibold">نام کامل:</span>{" "}
           {fullName || "ثبت نشده"}
@@ -159,9 +150,10 @@ const DashboardPage = ({
         </p>
       </div>
 
-      <div className="mt-6 flex justify-center">
+      {/* Edit Button */}
+      <div className="flex justify-center">
         <button
-          className="rounded-lg bg-blue-600 px-4 py-2 text-white shadow-md transition hover:bg-blue-700"
+          className="rounded-lg bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-2 font-semibold text-white shadow-md transition hover:from-blue-700 hover:to-blue-900 dark:from-blue-500 dark:to-blue-700 dark:hover:from-blue-400 dark:hover:to-blue-600"
           onClick={() => setIsOpen(true)}
         >
           ✏️ ویرایش اطلاعات
@@ -172,8 +164,10 @@ const DashboardPage = ({
       {isOpen && (
         <>
           <Bg_Modal modal={isOpen} setModal={() => setIsOpen(false)} />
-          <div className="absolute inset-0 z-30 m-auto h-fit w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
-            <h2 className="mb-4 text-lg font-bold">ویرایش پروفایل</h2>
+          <div className="absolute inset-0 z-30 m-auto h-fit w-full max-w-md rounded-xl bg-blue-50 p-6 shadow-lg dark:bg-blue-900">
+            <h2 className="mb-4 text-lg font-bold text-blue-800 dark:text-blue-300">
+              ویرایش پروفایل
+            </h2>
             <form className="space-y-4" action={formAction}>
               <Input
                 title="نام کامل"
@@ -201,10 +195,11 @@ const DashboardPage = ({
                 disabled={isPendingEditUser}
               />
 
-              <div className="mt-2 flex items-center justify-end gap-2">
+              <div className="mt-4 flex justify-end gap-3">
                 <button
+                  type="button"
                   onClick={() => setIsOpen(false)}
-                  className="h-13 rounded-xl bg-gray-200 px-4 text-gray-700 hover:bg-gray-300"
+                  className="h-12 rounded-lg bg-gray-200 px-4 text-gray-700 transition hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
                 >
                   انصراف
                 </button>
@@ -212,8 +207,8 @@ const DashboardPage = ({
                   style="!mt-0"
                   title="ذخیره"
                   type="submit"
-                  disabled={false}
-                  isLoading={false}
+                  disabled={isPendingEditUser}
+                  isLoading={isPendingEditUser}
                 />
               </div>
             </form>

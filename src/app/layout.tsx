@@ -1,13 +1,10 @@
-// "use client";
 import "./globals.css";
 import { ChildrenType } from "src/types/dataType.type";
 import { YekanBakh } from "@/utils/fonts";
-import Layout from "@/layout/Layout";
 import { Toaster } from "react-hot-toast";
-import NextAuthProvider from "@/provider/NextAuthProvider.provider";
-import ReactQueryProvider from "@/provider/ReqctQuery.provider";
+import Layout from "@/layout/Layout";
 import ClientWrapper from "@/provider/ClientWrapper";
-// import { useEffect } from "react";
+import { useTheme } from "next-themes";
 
 export const metadata = {
   title: "پروژه املاک",
@@ -24,6 +21,7 @@ export const metadata = {
 export default function RootLayout({ children }: ChildrenType) {
   return (
     <html
+      suppressHydrationWarning
       lang="fa"
       dir="rtl"
       className={`${YekanBakh.variable} !font-YekanBakh h-full`}
@@ -33,15 +31,11 @@ export default function RootLayout({ children }: ChildrenType) {
         <link rel="icon" href="/favicon.ico" />
         <meta name="theme-color" content="#0d6efd" />
       </head>
-      <body className="relative container mx-auto h-full max-w-7xl px-2">
+      <body className="custom-bg text relative container mx-auto h-full max-w-7xl px-2">
         <Toaster position="top-center" />
-        <NextAuthProvider>
-          <ReactQueryProvider>
-            <ClientWrapper>
-              <Layout>{children}</Layout>
-            </ClientWrapper>
-          </ReactQueryProvider>
-        </NextAuthProvider>
+        <ClientWrapper>
+          <Layout>{children}</Layout>
+        </ClientWrapper>
       </body>
     </html>
   );

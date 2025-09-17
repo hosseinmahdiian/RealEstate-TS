@@ -66,7 +66,7 @@ const AdminCard = ({ ad }: CardProps) => {
           ) : (
             <div className="relative">
               <FadeLoader
-                color="#cf2929"
+                color="#b9f8cf"
                 height={8}
                 margin={-12}
                 radius={4}

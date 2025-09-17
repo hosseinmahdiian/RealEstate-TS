@@ -72,10 +72,11 @@ const LogInPage = () => {
   }
 
   return (
-    <div className="inset-x-0 -top-10 bottom-0 m-auto mt-4 h-fit max-w-xl rounded-2xl border-blue-500 md:absolute md:mt-40 md:border">
-      <p className="mt-2 text-center text-xl font-bold text-blue-500">
+    <div className="inset-x-0 -top-10 bottom-0 m-auto mt-4 h-fit max-w-xl rounded-2xl border border-blue-500 bg-blue-50 text-gray-800 md:absolute md:mt-40 md:border dark:border-blue-700 dark:bg-blue-950 dark:text-white">
+      <p className="mt-2 text-center text-xl font-bold text-blue-500 dark:text-blue-400">
         فرم ورود
       </p>
+
       <form className="child:mt-10 px-4" onSubmit={loginAction}>
         <Input
           title="ایمیل"
@@ -97,13 +98,14 @@ const LogInPage = () => {
           disabled={data.password.length < 8 || !data.email || isPending}
           title={isPending ? "در حال ورود..." : "ورود"}
           isLoading={isPending}
-          style=""
+          style="dark:bg-blue-700 dark:hover:bg-blue-600 dark:text-white"
         />
       </form>
-      <p className="my-5 text-center">
+
+      <p className="my-5 text-center text-gray-700 dark:text-gray-300">
         حساب کاربری ندارید؟
-        <Link href="/signup" className="text-blue-500">
-          ایجاد{" "}
+        <Link href="/signup" className="text-blue-500 dark:text-blue-400">
+          ایجاد
         </Link>
       </p>
     </div>

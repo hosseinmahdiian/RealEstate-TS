@@ -33,7 +33,7 @@ const HomeMarker = ({ data }: { data: AdvertisementType }) => {
       eventHandlers={{
         click: () => {
           router.push(`/advertisement/${_id}`);
-          mutateEditViewAd(String(_id))
+          mutateEditViewAd(String(_id));
         },
         mouseover: (e) => {
           e.target.openPopup();
@@ -43,7 +43,16 @@ const HomeMarker = ({ data }: { data: AdvertisementType }) => {
         },
       }}
     >
-      <Popup closeButton={false}>{title}</Popup>
+      <Popup
+        closeButton={false}
+        className="ml-2 !border-0 !bg-transparent !shadow-none"
+        autoClose={false}
+        closeOnClick={false}
+      >
+        <div className="w-60 rounded-lg bg-white p-3 shadow-lg">
+          <h3 className="text-lg font-bold text-right">{title}</h3>
+        </div>
+      </Popup>
     </Marker>
   );
 };

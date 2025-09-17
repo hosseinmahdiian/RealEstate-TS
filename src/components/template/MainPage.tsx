@@ -1,90 +1,28 @@
-import { CategoryEnum } from "@/enum/enums.enum";
 import Advertisement from "@/models/Advertisement.model";
 import Items from "@/module/Items";
-import MAP from "@/module/Map/MapMain";
 import MapWrapper from "@/provider/WrapperMap";
 import { ConnectDB } from "@/utils/connectDB";
-import React from "react";
+
+export const revalidate = 10;
 
 const MainPage = async () => {
-  // const { data } = useSession();
-  // console.log(data);
   await ConnectDB();
   const allAd = await Advertisement.find({ published: true }).select("-userID");
 
   return (
     <div className="mt-8">
-      <div className="items-center justify-between md:flex">
-        <h2 className="text-center text-3xl text-blue-500">
-          نمایش موقیت ملک ها در نقشه{" "}
+      <div className="items-center justify-between ">
+        <h2 className="text-center text-3xl text-blue-500 mb-3">
+          نمایش موقعیت ملک‌ها در نقشه
         </h2>
         {allAd && (
-          <div className="aspect-square w-full md:w-3/5">
-            <MapWrapper items={allAd} />
+          <div className="aspect-square md:aspect-auto h-100 w-full ">
+            <MapWrapper />
           </div>
         )}
       </div>
 
-      <Items
-        title="پربازدیدترین"
-        url="/advertisement?mostViewed=true"
-        query={JSON.parse(
-          JSON.stringify(allAd.sort((a, b) => b.view - a.view)),
-        )}
-      />
-
-      {/* <Items
-        title="رهن و اجاره"
-        url="/advertisement?type=rent"
-        query={JSON.parse(JSON.stringify(allAd?.filter((i) => i.typeOf)))}
-      />
-      <Items
-        title=" خرید و فروش"
-        url="/advertisement?type=sell"
-        query={JSON.parse(JSON.stringify(allAd?.filter((i) => !i.typeOf)))}
-      />
-      <Items
-        title=" خرید و فروش"
-        url="/advertisement?mostViewed=true"
-        query={JSON.parse(JSON.stringify(allAd?.filter((i) => !i.typeOf)))}
-      /> */}
-
-      {/* <Items
-        title=" دسته ویلا "
-        url="/advertisement?category=villa"
-        query={JSON.parse(
-          JSON.stringify(
-            allAd?.filter((i) => i.category == CategoryEnum.Villa),
-          ),
-        )}
-      />
-      <Items
-        title=" دسته آپارتمان "
-        url="/advertisement?category=apartment"
-        query={JSON.parse(
-          JSON.stringify(
-            allAd?.filter((i) => i.category == CategoryEnum.Apartment),
-          ),
-        )}
-      />
-      <Items
-        title=" دسته مغازه "
-        url="/advertisement?category=store"
-        query={JSON.parse(
-          JSON.stringify(
-            allAd?.filter((i) => i.category == CategoryEnum.Store),
-          ),
-        )}
-      />
-      <Items
-        title=" دسته دفتر "
-        url="/advertisement?category=office"
-        query={JSON.parse(
-          JSON.stringify(
-            allAd?.filter((i) => i.category == CategoryEnum.Office),
-          ),
-        )}
-      /> */}
+      <Items />
     </div>
   );
 };

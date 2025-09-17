@@ -17,7 +17,7 @@ export interface ResponseInterface {
   success: boolean;
   message?: string;
   error?: string;
-  data?: any;
+  data?: any | AdvertisementType | null;
 }
 
 export interface CardProps {

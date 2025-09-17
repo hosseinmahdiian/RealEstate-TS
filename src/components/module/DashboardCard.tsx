@@ -30,26 +30,35 @@ const DashboardCard = ({ ad }: CardProps) => {
     });
 
   return (
-    <div className="rounded-2xl border border-blue-400 p-2 shadow-lg transition-all ease-in-out hover:scale-102 relative">
-      <div className="absolute top-5 right-3 z-10 text-xs ">
+    <div className="relative rounded-2xl border border-blue-200 bg-white p-2 text-gray-800 shadow-lg transition-all ease-in-out hover:scale-102 dark:border-blue-700 dark:bg-blue-950 dark:text-white">
+      {/* Status */}
+      <div className="absolute top-5 right-3 z-10 text-xs">
         {published ? (
-          <p className="text-green-300 bg-green-50 border border-green-300 px-3 rounded-xl">منتشر شده</p>
+          <p className="rounded-xl border border-green-400 bg-green-50 px-3 text-green-600 dark:border-green-600 dark:bg-green-800 dark:text-green-300">
+            منتشر شده
+          </p>
         ) : (
-          <p className="text-orange-300 bg-orange-50 rounded-xl px-3 border border-orange-300"> در انتظار تایید</p>
+          <p className="rounded-xl border border-orange-400 bg-orange-50 px-3 text-orange-600 dark:border-orange-600 dark:bg-orange-800 dark:text-orange-300">
+            در انتظار تایید
+          </p>
         )}
       </div>
+
+      {/* Card */}
       <Card ad={ad} />
+
+      {/* Actions */}
       <div className="child:w-1/2 child:text-center child:border child:rounded-lg mt-2 flex items-center gap-2">
         <Link
           href={`myAd/edit/${_id}`}
-          className="flex h-7 items-center justify-center gap-1 border-green-200 bg-green-50 text-green-400 shadow shadow-green-100"
+          className="flex h-7 items-center justify-center gap-1 border-green-200 bg-green-50 text-green-600 shadow shadow-green-100 dark:border-green-600 dark:bg-green-800 dark:text-green-300 dark:shadow-none"
         >
           <p>ویرایش</p>
           <MdOutlineEditNote />
         </Link>
 
         <button
-          className="flex h-7 cursor-pointer items-center justify-center gap-1 border-red-200 bg-red-50 text-red-400 shadow shadow-red-100"
+          className="flex h-7 cursor-pointer items-center justify-center gap-1 border-red-200 bg-red-50 text-red-600 shadow shadow-red-100 dark:border-red-600 dark:bg-red-800 dark:text-red-300 dark:shadow-none"
           disabled={isPendingEditDeleteAd}
           onClick={() => {
             mutateEditDeleteAd(String(_id));
@@ -70,7 +79,7 @@ const DashboardCard = ({ ad }: CardProps) => {
                 speedMultiplier={1}
                 width={4}
                 className="absolute !top-4 -right-4.5 mx-auto w-fit"
-              />{" "}
+              />
             </div>
           )}
         </button>

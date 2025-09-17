@@ -1,7 +1,9 @@
 "use client";
+import ThemeButton from "@/module/ThemeButton";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { FaArrowRightToBracket, FaRegCircleUser } from "react-icons/fa6";
+import { CircleLoader } from "react-spinners";
 
 const Header = () => {
   const session = useSession();
@@ -13,34 +15,41 @@ const Header = () => {
   };
 
   return (
-    <div className="sticky top-1 z-10 flex h-14 items-center justify-between rounded-xl bg-blue-500 px-5">
+    <div className="custom-bg-header sticky top-1 z-10 flex h-14 items-center justify-between rounded-xl px-5">
       <div className="pt flex items-center gap-2.5">
         <Link
-          className="font-bold text-white transition-all ease-in-out hover:scale-x-105"
+          className="font-bold transition-all ease-in-out hover:scale-x-105 text-gray-500 dark:text-white"
           href="/"
         >
           صفحه اصلی
         </Link>
         <Link
-          className="font-bold text-white transition-all ease-in-out hover:scale-x-105"
+          className="font-bold transition-all ease-in-out hover:scale-x-105 text-gray-500 dark:text-white"
           href="/advertisement "
         >
           آگهی ها
         </Link>
+        <ThemeButton />
       </div>
       <>
-        {session?.data ? (
+        {session?.status == "loading" && (
+          <p className="flex h-10 items-center gap-2.5 rounded-xl bg-blue-50 px-4 py-1 text-blue-500 transition-all ease-in-out hover:scale-x-105">
+            <CircleLoader color="#3b82f6" size={15} className="mt-" />
+          </p>
+        )}
+        {session?.status == "authenticated" && (
           <Link
             href="/dashboard"
-            className="flex items-center gap-2.5 rounded-xl bg-white px-4 py-1 text-blue-500 transition-all ease-in-out hover:scale-x-105"
+            className="flex items-center gap-2.5 rounded-xl bg-blue-50 px-4 py-1 text-blue-500 transition-all ease-in-out hover:scale-x-105"
           >
             <p>{fullName}</p>
             <FaRegCircleUser />
           </Link>
-        ) : (
+        )}
+        {session?.status == "unauthenticated" && (
           <Link
             href="/signup"
-            className="flex items-center gap-2.5 rounded-xl bg-white px-4 py-1 text-blue-500 transition-all ease-in-out hover:scale-x-105"
+            className="flex items-center gap-2.5 rounded-xl bg-blue-50 px-4 py-1 text-blue-500 transition-all ease-in-out hover:scale-x-105"
           >
             <FaArrowRightToBracket />
             <p>ورود</p>

@@ -16,9 +16,9 @@ const DashboardLayout = async ({ children }: ChildrenType) => {
     redirect("/login");
   }
   return (
-    <div className="child:mt-3 grid grid-cols-1 md:grid-cols-4 md:gap-3">
+    <div className="child:mt-3 grid grid-cols-1 md:grid-cols-11 md:gap-3 ">
       <SideBarProfile role={findUser?.role} />
-      <div className="col-span-3 !mt-2 overflow-y-scroll md:h-[calc(100vh-120px)]">
+      <div className="col-span-9 !mt-2 overflow-y-scroll  ">
         {children}
       </div>
     </div>

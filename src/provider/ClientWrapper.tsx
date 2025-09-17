@@ -3,6 +3,8 @@
 import { ReactNode, useEffect } from "react";
 import NextAuthProvider from "@/provider/NextAuthProvider.provider";
 import ReactQueryProvider from "@/provider/ReqctQuery.provider";
+import { ThemeProvider } from "next-themes";
+// import { ThemeProvider } from "./ThemeProvider";
 
 export default function ClientWrapper({ children }: { children: ReactNode }) {
   useEffect(() => {
@@ -12,8 +14,10 @@ export default function ClientWrapper({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <NextAuthProvider>
-      <ReactQueryProvider>{children}</ReactQueryProvider>
-    </NextAuthProvider>
+    <ThemeProvider attribute="data-theme" enableSystem>
+      <NextAuthProvider>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
+      </NextAuthProvider>
+     </ThemeProvider>
   );
 }

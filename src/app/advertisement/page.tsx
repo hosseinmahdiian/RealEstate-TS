@@ -37,6 +37,7 @@ const page = async ({
     data = data.sort((a, b) => b.view - a.view);
   }
 
+  
   return <AdvertisementsPage ads={JSON.parse(JSON.stringify(data))} />;
 };
 

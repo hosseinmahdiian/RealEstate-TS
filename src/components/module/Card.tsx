@@ -49,11 +49,15 @@ const Card = ({ ad, count = false }: CardProps & { count?: boolean }) => {
       onClick={() => {
         count && mutateEditViewAd(String(_id));
       }}
-      className="relative block h-fit overflow-hidden rounded-lg border border-blue-100 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md"
+      className="relative block h-fit overflow-hidden rounded-lg border border-blue-100 bg-white text-gray-800 shadow-md transition-shadow duration-200 hover:shadow-lg dark:border-blue-700 dark:bg-blue-950 dark:text-white"
     >
-      <span className="absolute top-3 left-3 flex items-center gap-1 rounded-xl border border-blue-50 bg-blue-200 px-1.5 text-blue-400">
-        <p className="mt-0.5 text-xs"> {view ?? 0}</p> <IoMdEye />
+      {/* Views */}
+      <span className="absolute top-3 left-3 flex items-center gap-1 rounded-xl border border-blue-100 bg-blue-50 px-1.5 text-xs text-blue-800 dark:border-blue-700 dark:bg-blue-800 dark:text-blue-200">
+        <p className="mt-0.5">{view ?? 0}</p>
+        <IoMdEye />
       </span>
+
+      {/* Image */}
       <div className="mx-auto mt-4 aspect-square w-9/12">
         <Image
           src={image || noImage}
@@ -64,29 +68,21 @@ const Card = ({ ad, count = false }: CardProps & { count?: boolean }) => {
         />
       </div>
 
-      <div className="space- grid grid-cols-10 p-2">
-        <h3 className="col-span-full line-clamp-1 text-lg font-bold text-gray-800">
+      {/* Info */}
+      <div className="grid grid-cols-10 p-2">
+        <h3 className="col-span-full line-clamp-1 text-lg font-bold text-gray-800 dark:text-white">
           {title}
         </h3>
-        <div className="col-span-full flex items-center justify-between gap-1">
-          <span className="text-xs md:text-sm">{typeOf ? "رهن" : "مبلغ"}</span>
-          <div className="flex items-center gap-2">
-            <p className="pt-1.5 font-medium text-gray-500">{sp(+price)} </p>
-            <Image
-              src={toman}
-              alt="toman"
-              width={40}
-              height={20}
-              className="w-5 object-cover"
-            />
-          </div>
-        </div>
-        <div className="col-span-full flex h-5 items-center justify-between gap-1">
-          {typeOf && <span className="text-xs md:text-sm">اجاره</span>}
-          {typeOf && (
+
+        <div className="h-15 w-full.  col-span-full ">
+          {/* Price */}
+          <div className="flex items-center justify-between gap-1 w-full ">
+            <span className="text-xs md:text-sm">
+              {typeOf ? "رهن" : "مبلغ"}
+            </span>
             <div className="flex items-center gap-2">
-              <p className="pt-1.5 font-medium text-gray-500">
-                {sp(String(rent))}
+              <p className="pt-1.5 font-medium text-gray-700 dark:text-gray-300">
+                {sp(+price)}
               </p>
               <Image
                 src={toman}
@@ -96,27 +92,51 @@ const Card = ({ ad, count = false }: CardProps & { count?: boolean }) => {
                 className="w-5 object-cover"
               />
             </div>
+          </div>
+
+          {/* Rent */}
+          {typeOf && (
+            <div className="col-span-full flex items-center justify-between gap-1">
+              <span className="text-xs md:text-sm">اجاره</span>
+              <div className="flex items-center gap-2">
+                <p className="pt-1.5 font-medium text-gray-700 dark:text-gray-300">
+                  {sp(String(rent))}
+                </p>
+                <Image
+                  src={toman}
+                  alt="toman"
+                  width={40}
+                  height={20}
+                  className="w-5 object-cover"
+                />
+              </div>
+            </div>
           )}
         </div>
-        <div className="col-span-full flex items-center gap-1">
-          <GrLocationPin className=" " />{" "}
-          <p className="line-clamp-1 w-[calc(100%-20px)] text-gray-500">
-            {address}
-          </p>
+
+        {/* Address */}
+        <div className="col-span-full flex items-center gap-1 text-gray-500 dark:text-gray-300">
+          <GrLocationPin />
+          <p className="line-clamp-1 w-[calc(100%-20px)]">{address}</p>
         </div>
-        <div className="col-span-4 flex items-center gap-1">
+
+        {/* Category */}
+        <div className="col-span-4 flex items-center gap-1 text-gray-500 dark:text-gray-300">
           <BiCategory />
-          <p className="line-clamp-1 text-gray-500">
+          <p className="line-clamp-1">
             {categoryFaMap[category as CategoryEnum]}
           </p>
         </div>
-        {/* <p className="text-left"> {formattedDate}</p> */}
-        <div className="col-span-6 flex items-center gap-1">
+
+        {/* Real State */}
+        <div className="col-span-6 flex items-center gap-1 text-gray-500 dark:text-gray-300">
           <FaSearchLocation className="w-4" />
-          <p className="line-clamp-1 text-sm text-gray-500">{realState}</p>
+          <p className="line-clamp-1 text-sm">{realState}</p>
         </div>
       </div>
-      <div className="mb-2 flex items-center justify-between px-3 text-blue-500">
+
+      {/* View Ad */}
+      <div className="mb-2 flex items-center justify-between px-3 text-blue-500 dark:text-blue-400">
         <FaArrowRight />
         <p className="">دیدن آگهی</p>
       </div>
