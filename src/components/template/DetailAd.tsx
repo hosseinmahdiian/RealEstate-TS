@@ -202,7 +202,7 @@ const DetailAd = ({ ad }: { ad: AdvertisementType }) => {
       {/* Map placeholder */}
       {location?.lat && location?.lng && (
         <div className="mt-6 h-80 w-full rounded-xl border shadow-md md:h-[400px]">
-          <div className="mx-auto aspect-square h-100 w-[calc(100%-40px)] rounded-lg border md:aspect-auto md:w-full">
+          <div className="mx-auto  h-full w-full rounded-xl border md:aspect-auto md:w-full">
             {location?.lat && location?.lng ? (
               <MAP
                 data={{ lat: +location.lat, lng: +location.lng }}

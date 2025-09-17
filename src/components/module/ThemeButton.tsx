@@ -9,15 +9,21 @@ export default function ThemeButton() {
 
   return (
     <div className="flex items-center gap-5">
-      <AiFillSun className="text-gray-500 dark:text-white" />
-      <CheckBox
-        name="mode"
-        FN={() => {
-          setTheme(theme === "dark" ? "light" : "dark");
-        }}
-        data={theme === "dark" ? true : false}
-      />
-      <BsMoonFill className="text-gray-500 dark:text-white" />{" "}
+      {theme === "light" ? (
+        <AiFillSun
+          className="text-gray-500 dark:text-white"
+          onClick={() => {
+            setTheme(String(theme) === "dark" ? "light" : "dark");
+          }}
+        />
+      ) : (
+        <BsMoonFill
+          className="text-gray-500 dark:text-white"
+          onClick={() => {
+            setTheme(String(theme) === "dark" ? "light" : "dark");
+          }}
+        />
+      )}
     </div>
   );
 }

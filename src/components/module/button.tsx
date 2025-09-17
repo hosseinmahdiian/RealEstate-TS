@@ -36,7 +36,7 @@ const Button: React.FC<ButtonProps> = ({
       disabled={disabled || isLoading}
       onClick={FN}
       className={`${
-        !isLoading && !disabled ? "button-Active" : "button-DiActive"
+        !isLoading && !disabled ? "button-Active" : "bg-gray-100 text-gray-700 hover:bg-blue-200 dark:cursor-not-allowed dark:bg-gray-700 dark:text-gray-400"
       } mt-6 block h-12 w-full rounded-[14px] ${style}`}
     >
       {isLoading ? (

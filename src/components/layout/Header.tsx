@@ -16,20 +16,20 @@ const Header = () => {
 
   return (
     <div className="custom-bg-header sticky top-1 z-10 flex h-14 items-center justify-between rounded-xl px-5">
-      <div className="pt flex items-center gap-2.5">
+      <div className="flex items-center gap-2.5">
+        <ThemeButton />
         <Link
-          className="font-bold transition-all ease-in-out hover:scale-x-105 text-gray-500 dark:text-white"
+          className="font-bold text-gray-500 transition-all ease-in-out hover:scale-x-105 dark:text-white"
           href="/"
         >
           صفحه اصلی
         </Link>
         <Link
-          className="font-bold transition-all ease-in-out hover:scale-x-105 text-gray-500 dark:text-white"
+          className="font-bold text-gray-500 transition-all ease-in-out hover:scale-x-105 dark:text-white"
           href="/advertisement "
         >
           آگهی ها
         </Link>
-        <ThemeButton />
       </div>
       <>
         {session?.status == "loading" && (
@@ -42,7 +42,7 @@ const Header = () => {
             href="/dashboard"
             className="flex items-center gap-2.5 rounded-xl bg-blue-50 px-4 py-1 text-blue-500 transition-all ease-in-out hover:scale-x-105"
           >
-            <p>{fullName}</p>
+            <p className="line-clamp-1 max-w-20">{fullName}</p>
             <FaRegCircleUser />
           </Link>
         )}

@@ -122,7 +122,7 @@ const DashboardPage = ({
   );
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6 p-4 text-gray-800 dark:text-gray-200">
+    <div className="mx-auto max-w-3xl space-y-6 p-4 text-gray-800 dark:text-gray-200 relative">
       {/* Profile Info */}
       <div className="space-y-2 rounded-xl bg-blue-50 p-6 shadow-md dark:bg-blue-900">
         {profile ? (
@@ -156,7 +156,7 @@ const DashboardPage = ({
           className="rounded-lg bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-2 font-semibold text-white shadow-md transition hover:from-blue-700 hover:to-blue-900 dark:from-blue-500 dark:to-blue-700 dark:hover:from-blue-400 dark:hover:to-blue-600"
           onClick={() => setIsOpen(true)}
         >
-          ✏️ ویرایش اطلاعات
+           ویرایش اطلاعات
         </button>
       </div>
 
@@ -164,7 +164,7 @@ const DashboardPage = ({
       {isOpen && (
         <>
           <Bg_Modal modal={isOpen} setModal={() => setIsOpen(false)} />
-          <div className="absolute inset-0 z-30 m-auto h-fit w-full max-w-md rounded-xl bg-blue-50 p-6 shadow-lg dark:bg-blue-900">
+          <div className="absolute  inset-0 z-30 m-auto md:h-fit h-full w-full max-w-md rounded-xl overflow-hidden bg-blue-50 p-6 shadow-lg dark:bg-blue-900">
             <h2 className="mb-4 text-lg font-bold text-blue-800 dark:text-blue-300">
               ویرایش پروفایل
             </h2>

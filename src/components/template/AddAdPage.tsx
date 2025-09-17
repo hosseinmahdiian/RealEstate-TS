@@ -415,17 +415,17 @@ const AddAdPage = () => {
         <Button
           type="submit"
           disabled={
-            !data.title ||
-            !data.mobile ||
-            !data.price ||
-            !data.address ||
-            !data.realState ||
-            !data?.mobile ||
-            !data.description ||
-            !data.category ||
-            (!data.rent && rent) ||
-            !data.city ||
-            !data.province ||
+            // !data.title ||
+            // !data.mobile ||
+            // !data.price ||
+            // !data.address ||
+            // !data.realState ||
+            // !data?.mobile ||
+            // !data.description ||
+            // !data.category ||
+            // (!data.rent && rent) ||
+            // !data.city ||
+            // !data.province ||
             isPendingAddAd
           }
           title="ثبت آگهی"
