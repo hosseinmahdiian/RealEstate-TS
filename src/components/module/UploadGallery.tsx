@@ -101,9 +101,8 @@ const UploadGallery: FC<UploadGalleryProps> = ({
       />
       {!image && (
         <label
-          className={`absolute start-1 -bottom-6 flex !h-fit items-center gap-2 text-sm text-red-400 transition-all ease-linear`}
+          className={`absolute start-1 -bottom-6 flex !h-fit items-center gap-2 text-sm text-yellow-400 transition-all ease-linear`}
         >
-          <FaStarOfLife className="text-[10px]" />
           <p className="mt-0.5">ابتدا عکس اصلی را انتخاب کنید</p>
         </label>
       )}

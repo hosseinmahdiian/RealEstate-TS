@@ -32,7 +32,7 @@ const TextAria = ({
 
   return (
     <div
-      className={` ${style} relative mx-auto mt-6 h-fit w-full overflow-hidden ${alert && "!mb-13"} `}
+      className={` ${style} relative mx-auto mt-6 h-fit w-full overflow-hidden pb-3 ${alert && "!mb-13"} `}
     >
       <Bg_Modal
         modal={disabled}
@@ -57,7 +57,7 @@ const TextAria = ({
       {alert && (
         <label
           htmlFor={name}
-          className={`absolute start-1 -bottom-6 flex !h-fit items-center gap-2 text-sm text-red-400 transition-all ease-linear`}
+          className={`absolute start-1 -bottom-1 flex !h-fit items-center gap-2 text-sm text-red-400 transition-all ease-linear`}
         >
           <FaStarOfLife className="text-[10px]" />
           <p className="mt-0.5">{alert}</p>

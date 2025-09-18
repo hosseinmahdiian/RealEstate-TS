@@ -330,7 +330,7 @@ const AddAdPage = () => {
             disabled={isPendingAddAd}
           />
         )}
-        <div className="flex items-center gap-2 lg:col-span-2">
+        <div className="flex items-center gap-2 lg:col-span-2  h-13">
           <SetProvinces
             setData={setData}
             setProvince={setProvince}

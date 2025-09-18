@@ -347,7 +347,7 @@ const EditAdPage = ({ ad }: AD) => {
             disabled={isPendingFetchAddress}
           />
         )}
-        <div className="flex items-center gap-2 lg:col-span-2">
+        <div className="flex items-center gap-2 lg:col-span-2 h-13">
           <SetProvinces
             setData={setData}
             setProvince={setProvince}
@@ -432,17 +432,17 @@ const EditAdPage = ({ ad }: AD) => {
         <Button
           type="submit"
           disabled={
-            !data.title ||
-            !data.mobile ||
-            !data.price ||
-            !data.address ||
-            !data.realState ||
-            !data?.mobile ||
-            !data.description ||
-            !data.category ||
-            (!data.rent && rent) ||
-            !data.city ||
-            !data.province ||
+            // !data.title ||
+            // !data.mobile ||
+            // !data.price ||
+            // !data.address ||
+            // !data.realState ||
+            // !data?.mobile ||
+            // !data.description ||
+            // !data.category ||
+            // (!data.rent && rent) ||
+            // !data.city ||
+            // !data.province ||
             isPendingFetchAddress
           }
           title="ثبت آگهی"
