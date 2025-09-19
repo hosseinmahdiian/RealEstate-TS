@@ -17,7 +17,7 @@ const Items = () => {
   if (error) throw error;
   return (
     data?.data?.length > 0 && (
-      <div className="mb-6 mt-10">
+      <div className="mt-10 mb-6">
         <div className="flex w-full justify-between text-blue-500">
           <h2 className="text-lg font-semibold">پر بازدیدترین</h2>
           <Link
@@ -32,9 +32,10 @@ const Items = () => {
           {data?.data?.length > 0 ? (
             <>
               {data?.data
+                ?.sort((a:AdvertisementType, b:AdvertisementType) => b.view - a.view)
                 ?.slice(0, 9)
-                .map((ad: AdvertisementType, index: number) => (
-                  <Card ad={ad} key={index} count={true} />
+                .map((ad:AdvertisementType, index:number) => (
+                  <Card ad={ad} key={index} count />
                 ))}
               <Link
                 href="/advertisement?mostViewed=true"
